@@ -8,13 +8,14 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
 public class PaintCameraActivity extends Activity
 {
-    private static final String LOGTAG = "PaintCameraActivity";
+    private static final String LOG_TAG = "PaintCameraActivity";
     private static final int PERMISSIONS_KEY = 42;
 
     @Override
@@ -28,6 +29,7 @@ public class PaintCameraActivity extends Activity
 
         requestPermissions();
         setContentView(R.layout.activity_paintcamera);
+        Log.d(LOG_TAG, "onCreate");
     }
 
     @Override

@@ -9,7 +9,7 @@ import org.opencv.android.CameraGLSurfaceView;
 
 public class CVGLSurfaceView extends CameraGLSurfaceView implements CameraGLSurfaceView.CameraTextureListener
 {
-    private static final String LOGTAG = "CVGLSurfaceView";
+    private static final String LOG_TAG = "CVGLSurfaceView";
 
     public CVGLSurfaceView(Context context, AttributeSet attrs)
     {
@@ -19,26 +19,26 @@ public class CVGLSurfaceView extends CameraGLSurfaceView implements CameraGLSurf
     @Override
     public void onCameraViewStarted(int width, int height)
     {
-        Log.d(LOGTAG, String.format("onCameraViewStarted w%d, h%d", width, height));
+        Log.d(LOG_TAG, String.format("onCameraViewStarted w%d, h%d", width, height));
     }
 
     @Override
     public void onCameraViewStopped()
     {
-        Log.d(LOGTAG, "onCameraViewStopped");
+        Log.d(LOG_TAG, "onCameraViewStopped");
     }
 
     @Override
     public void surfaceCreated(SurfaceHolder holder)
     {
         super.surfaceCreated(holder);
-        Log.d(LOGTAG, "surfaceCreated");
+        Log.d(LOG_TAG, "surfaceCreated");
     }
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder)
     {
-        Log.d(LOGTAG, "surfaceDestroyed");
+        Log.d(LOG_TAG, "surfaceDestroyed");
         super.surfaceDestroyed(holder);
     }
 
@@ -46,6 +46,7 @@ public class CVGLSurfaceView extends CameraGLSurfaceView implements CameraGLSurf
     public boolean onCameraTexture(int texIn, int texOut, int width, int height)
     {
         //Call Native Processing Code Here - Can Pass Parameters to OpenCV
+        NativeBridge.drawBox();
         return false;
     }
 }
