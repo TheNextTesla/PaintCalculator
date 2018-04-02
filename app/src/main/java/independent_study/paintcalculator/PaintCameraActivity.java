@@ -13,10 +13,14 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import org.opencv.android.CameraGLSurfaceView;
+
 public class PaintCameraActivity extends Activity
 {
     private static final String LOG_TAG = "PaintCameraActivity";
     private static final int PERMISSIONS_KEY = 42;
+
+    private CVGLSurfaceView view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -29,6 +33,8 @@ public class PaintCameraActivity extends Activity
 
         requestPermissions();
         setContentView(R.layout.activity_paintcamera);
+        view = findViewById(R.id.CVGLSurfaceView);
+        view.setCameraTextureListener(view);
         Log.d(LOG_TAG, "onCreate");
     }
 
