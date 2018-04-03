@@ -10,5 +10,5 @@ public class NativeBridge
 
     private NativeBridge() { }
 
-    public static native void drawBox();
+    public static native void testDraw(int texIn, int texOut, int width, int height);
 }

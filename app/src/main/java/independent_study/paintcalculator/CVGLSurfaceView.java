@@ -1,6 +1,7 @@
 package independent_study.paintcalculator;
 
 import android.content.Context;
+import android.opengl.GLSurfaceView;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -14,6 +15,7 @@ public class CVGLSurfaceView extends CameraGLSurfaceView implements CameraGLSurf
     public CVGLSurfaceView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
+        //setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
     }
 
     @Override
@@ -46,7 +48,9 @@ public class CVGLSurfaceView extends CameraGLSurfaceView implements CameraGLSurf
     public boolean onCameraTexture(int texIn, int texOut, int width, int height)
     {
         //Call Native Processing Code Here - Can Pass Parameters to OpenCV
-        NativeBridge.drawBox();
+        Log.d(LOG_TAG, "Width " + width + " Height " + height);
+        NativeBridge.testDraw(texIn, texOut, width, height);
+        //return true;
         return false;
     }
 }
