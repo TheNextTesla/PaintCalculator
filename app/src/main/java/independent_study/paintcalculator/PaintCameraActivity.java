@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -19,7 +21,7 @@ public class PaintCameraActivity extends Activity
 {
     private static final String LOG_TAG = "PaintCameraActivity";
     private static final int PERMISSIONS_KEY = 42;
-
+    private MotionEvent[] touchLocations = new MotionEvent[2];
     private CVGLSurfaceView view;
 
     @Override
@@ -36,6 +38,39 @@ public class PaintCameraActivity extends Activity
         view = findViewById(R.id.CVGLSurfaceView);
         view.setCameraTextureListener(view);
         Log.d(LOG_TAG, "onCreate");
+
+        View.OnTouchListener handleTouch = new View.OnTouchListener()
+        {
+            @Override
+            public boolean onTouch(View v, MotionEvent event)
+            {
+
+                int x = (int) event.getX();
+                int y = (int) event.getY();
+
+                switch (event.getAction())
+                {
+                    case MotionEvent.ACTION_DOWN:
+                        touchLocations[0] = event;
+                        Log.d(LOG_TAG, "TouchX"+x);
+                        Log.d(LOG_TAG, "TouchY"+y);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        touchLocations[1] = event;
+                        Log.d(LOG_TAG, "TouchX"+x);
+                        Log.d(LOG_TAG, "TouchY"+y);
+                        break;
+                }
+
+                return true;
+            }
+        };
+        view.setOnTouchListener(handleTouch);
+    }
+
+    public MotionEvent[] getTouchCordinates()
+    {
+        return(touchLocations);
     }
 
     @Override
@@ -66,4 +101,5 @@ public class PaintCameraActivity extends Activity
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, PERMISSIONS_KEY);
         }
     }
+
 }
