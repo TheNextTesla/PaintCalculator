@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 
 import org.opencv.android.CameraGLSurfaceView;
+import org.opencv.core.Rect;
 
 public class CVGLSurfaceView extends CameraGLSurfaceView implements CameraGLSurfaceView.CameraTextureListener
 {
@@ -49,7 +50,11 @@ public class CVGLSurfaceView extends CameraGLSurfaceView implements CameraGLSurf
     {
         //Call Native Processing Code Here - Can Pass Parameters to OpenCV
         Log.d(LOG_TAG, "Width " + width + " Height " + height);
-        NativeBridge.testDraw(texIn, texOut, width, height);
+        //NativeBridge.testDraw(texIn, texOut, width, height);
+
+        Rect wallBlob = NativeBridge.blobAnalyze(texIn, texOut, width, height, 0, 255, 0, 255, 0, 255);
+        Log.d(LOG_TAG, "X " + wallBlob.x + " Y " + wallBlob.y);
+
         //return true;
         return false;
     }
