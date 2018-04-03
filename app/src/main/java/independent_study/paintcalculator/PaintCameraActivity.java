@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,6 +23,8 @@ public class PaintCameraActivity extends Activity
     private static final String LOG_TAG = "PaintCameraActivity";
     private static final int PERMISSIONS_KEY = 42;
     private MotionEvent[] touchLocations = new MotionEvent[2];
+    private int screenPixelWidth;
+    private int screenPixelHeight;
     private CVGLSurfaceView view;
 
     @Override
@@ -38,6 +41,11 @@ public class PaintCameraActivity extends Activity
         view = findViewById(R.id.CVGLSurfaceView);
         view.setCameraTextureListener(view);
         Log.d(LOG_TAG, "onCreate");
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        ((Activity) view.getContext()).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        screenPixelWidth = displayMetrics.widthPixels;
+        screenPixelHeight = displayMetrics.heightPixels;
 
         View.OnTouchListener handleTouch = new View.OnTouchListener()
         {
@@ -71,6 +79,16 @@ public class PaintCameraActivity extends Activity
     public MotionEvent[] getTouchCordinates()
     {
         return(touchLocations);
+    }
+    //adjusts screen touch loaction to camera pixel loaction
+    public int adjustScreenTouchX(int screenX)
+    {
+        return((screenX/screenPixelWidth)*view.getWidth());
+    }
+    //adjusts screen touch loaction to camera pixel loaction
+    public int adjustScreenTouchY(int screenY)
+    {
+        return((screenY/screenPixelHeight)*view.getHeight());
     }
 
     @Override
