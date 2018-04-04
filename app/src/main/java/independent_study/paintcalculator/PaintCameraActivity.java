@@ -55,37 +55,39 @@ public class PaintCameraActivity extends Activity
         View.OnTouchListener handleTouch = new View.OnTouchListener()
         {
             @Override
-            public boolean onTouch(View v, MotionEvent event)
-            {
-                float x = (float)(int) event.getX();
-                float y = (float)(int) event.getY();
-
-                switch (event.getAction())
+            public boolean onTouch(View v, MotionEvent event) {
+                //TODO switch with boolean
+                if (true)
                 {
-                    case MotionEvent.ACTION_DOWN:
-                        tempRect = new RectF(x / screenPixelWidth, y / screenPixelHeight, x / screenPixelWidth, y / screenPixelHeight);
-                        startX = x / screenPixelWidth;
-                        startY = y / screenPixelHeight;
-                        touchLocations[0] = event;
-                        Log.d(LOG_TAG, "Down Touch X " + x + " Y " + y);
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        if(tempRect != null)
-                        {
-                            tempRect = new RectF(startX, startY, x / screenPixelWidth, y / screenPixelWidth);
-                        }
-                    case MotionEvent.ACTION_UP:
-                        touchLocations[1] = event;
-                        Log.d(LOG_TAG, "Up Touch X " + x + " Y " + y);
-                        break;
+                    float x = (float) (int) event.getX();
+                    float y = (float) (int) event.getY();
+
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            tempRect = new RectF(x / screenPixelWidth, y / screenPixelHeight, x / screenPixelWidth, y / screenPixelHeight);
+                            startX = x / screenPixelWidth;
+                            startY = y / screenPixelHeight;
+                            touchLocations[0] = event;
+                            Log.d(LOG_TAG, "Down Touch X " + x + " Y " + y);
+                            break;
+                        case MotionEvent.ACTION_MOVE:
+                            if (tempRect != null) {
+                                tempRect = new RectF(startX, startY, x / screenPixelWidth, y / screenPixelWidth);
+                            }
+                        case MotionEvent.ACTION_UP:
+                            touchLocations[1] = event;
+                            Log.d(LOG_TAG, "Up Touch X " + x + " Y " + y);
+                            break;
+                    }
+
+                    if (tempRect != null)
+                        tempRect.sort();
+
+                    rectView.setRectToDraw(tempRect);
+                    rectView.invalidate();
+                    return true;
                 }
-
-                if(tempRect != null)
-                    tempRect.sort();
-
-                rectView.setRectToDraw(tempRect);
-                rectView.invalidate();
-                return true;
+                return false;
             }
         };
         cvView.setOnTouchListener(handleTouch);
