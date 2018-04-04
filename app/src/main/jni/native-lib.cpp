@@ -64,7 +64,7 @@ extern "C" JNIEXPORT jobject JNICALL Java_independent_1study_paintcalculator_Nat
     glEnable(GL_TEXTURE_2D);
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, texOut);
-    glBegin(GL_LINES);
+    /*glBegin(GL_LINES);
        glVertex3f(largestWall.x, largestWall.y, 0);
        glVertex3f(largestWall.x + largestWall.width, largestWall.y + largestWall.height, 0);
     glEnd();
@@ -79,6 +79,12 @@ extern "C" JNIEXPORT jobject JNICALL Java_independent_1study_paintcalculator_Nat
      glBegin(GL_LINES);
        glVertex3f(largestWall.x, largestWall.y + largestWall.height, 0);
        glVertex3f(largestWall.x + largestWall.width, largestWall.y + largestWall.height, 0);
+    glEnd();*/
+    glBegin(GL_QUAD);
+    glVertex2f(1.0f, 1.0f)
+    glVertex2f(2.0f, 1.0f)
+    glVertex2f(2.0f, 2.0f)
+    glVertex2f(1.0f, 2.0f)
     glEnd();
     glDisable(GL_TEXTURE_2D);
     

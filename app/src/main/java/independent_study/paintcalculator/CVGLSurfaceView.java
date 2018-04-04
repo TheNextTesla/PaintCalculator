@@ -83,8 +83,8 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
         Log.d(LOG_TAG, "Width " + width + " Height " + height);
         //NativeBridge.testDraw(texIn, texOut, width, height);
 
-        //Rect wallBlob = NativeBridge.blobAnalyze(texIn, texOut, width, height, 0, 255, 0, 255, 0, 255);
-        //Log.d(LOG_TAG, "X " + wallBlob.x + " Y " + wallBlob.y);
+        Rect wallBlob = NativeBridge.blobAnalyze(texIn, texOut, width, height, 0, 255, 0, 255, 0, 255);
+        Log.d(LOG_TAG, "X " + wallBlob.x + " Y " + wallBlob.y);
 
         return true;
         //return false;
