@@ -15,6 +15,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import android.graphics.Rect;
+
 public class PaintCameraActivity extends Activity
 {
     private static final String LOG_TAG = "PaintCameraActivity";
@@ -24,6 +26,7 @@ public class PaintCameraActivity extends Activity
     private int screenPixelHeight;
     private CVGLSurfaceView cvView;
     private RectangleView rectView;
+    private Rect tempRect;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -57,17 +60,25 @@ public class PaintCameraActivity extends Activity
                 switch (event.getAction())
                 {
                     case MotionEvent.ACTION_DOWN:
+                        tempRect = new Rect(x, y, x, y);
                         touchLocations[0] = event;
                         Log.d(LOG_TAG, "Down TouchX"+x);
                         Log.d(LOG_TAG, "Down TouchY"+y);
                         break;
+                    case MotionEvent.ACTION_MOVE:
+                        if(tempRect != null)
+                        {
+                            tempRect = new Rect(tempRect.left, tempRect.top, x, y);
+                        }
                     case MotionEvent.ACTION_UP:
+                        tempRect = null;
                         touchLocations[1] = event;
                         Log.d(LOG_TAG, "Down TouchX"+x);
                         Log.d(LOG_TAG, "Down TouchY"+y);
                         break;
                 }
 
+                rectView.setRectToDraw(tempRect);
                 return true;
             }
         };

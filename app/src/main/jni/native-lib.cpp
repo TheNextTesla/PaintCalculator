@@ -109,6 +109,7 @@ extern "C" JNIEXPORT jobject JNICALL Java_independent_1study_paintcalculator_Nat
             "  gl_Position = uMVPMatrix * vPosition;" +
             "}")glsl";
 
+    /*
     const char* fragmentShaderCode = R"glsl("precision mediump float;" +
                  "uniform vec4 vColor;" +
                  "void main() {" +
@@ -142,6 +143,7 @@ extern "C" JNIEXPORT jobject JNICALL Java_independent_1study_paintcalculator_Nat
     glDrawArrays(GL_QUADS, 0, 3);
 
     glDisable(GL_TEXTURE_2D);
+    */
     
     jclass cls = (env)->FindClass("org/opencv/core/Rect");
     jmethodID constructor = env->GetMethodID(cls, "<init>", "(IIII)V");
