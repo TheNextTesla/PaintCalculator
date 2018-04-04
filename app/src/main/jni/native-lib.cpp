@@ -98,13 +98,20 @@ extern "C" JNIEXPORT jobject JNICALL Java_independent_1study_paintcalculator_Nat
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STREAM_DRAW);
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     const char* vertexShaderCode = R"glsl(
-            uniform mat4 uMVPMatrix;
-            attribute vec4 vPosition;
-            void main() {
-            gl_Position = uMVPMatrix * vPosition;
-            })glsl";
+        in vec2 position;
 
-/*"precision mediump float;" +
+        void main()
+        {
+            gl_Position = vec4(position, 0.0, 1.0);
+        }
+            )glsl";
+
+/*uniform mat4 uMVPMatrix;
+              attribute vec4 vPosition;
+              void main() {
+              gl_Position = uMVPMatrix * vPosition;
+              }
+"precision mediump float;" +
                                                     "uniform vec4 vColor;" +
                                                     "void main() {" +
                                                     "  gl_FragColor = vColor;" +
@@ -136,8 +143,6 @@ extern "C" JNIEXPORT jobject JNICALL Java_independent_1study_paintcalculator_Nat
     glEnableVertexAttribArray(posAttrib);
 
     //glBindFragDataLocation(shaderProgram, 0, "outColor");
-
-    GLint vPos = glGetAttribLocation(shaderProgram, "vPosition");
 
     // glVertexAttribPointer(vPos, 2,
     //                            GL_FLOAT, false,
