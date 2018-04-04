@@ -145,6 +145,8 @@ extern "C" JNIEXPORT jobject JNICALL Java_independent_1study_paintcalculator_Nat
 
     glUniform4f(vCol, 1.0f, 1.0f, 1.0f, 1.0f);
 
+    glColor3f(0.5f, 0.5f, 0.5f);
+
     glDrawArrays(GL_LINE_LOOP, 0, 4);
     glDisable(GL_TEXTURE_2D);
     glDisableVertexAttribArray(vPos);
