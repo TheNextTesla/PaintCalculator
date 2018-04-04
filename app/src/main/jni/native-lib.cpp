@@ -138,7 +138,7 @@ extern "C" JNIEXPORT jobject JNICALL Java_independent_1study_paintcalculator_Nat
                                 GL_FLOAT, false,
                                 4, vertices);
 
-    glUniform4fv(glGetUniformLocation(shaderProgram, "vColor"), 1, color, 0);
+    glUniform4fv(glGetUniformLocation(shaderProgram, "vColor"), 1.0f, 1.0f, 1.0f, 1.0f);
 
     glDrawArrays(GL_LINE_LOOP, 0, 4);
     glDisable(GL_TEXTURE_2D);
