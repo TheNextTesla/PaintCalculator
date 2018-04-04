@@ -79,7 +79,7 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
     public boolean onCameraTexture(int texIn, int texOut, int width, int height)
     {
         //Call Native Processing Code Here - Can Pass Parameters to OpenCV
-        Log.d(LOG_TAG, "Width " + width + " Height " + height);
+        //Log.d(LOG_TAG, "Width " + width + " Height " + height);
         //NativeBridge.testDraw(texIn, texOut, width, height);
 
         //Rect wallBlob = NativeBridge.blobAnalyze(texIn, texOut, width, height, 0, 255, 0, 255, 0, 255);
@@ -91,7 +91,7 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
 
     public double calculateArea(Rect obj, double distance, int width, int height){
         double w = (((obj.width / width) * sizeW) / focal_length) * distance;
-        double h = (((obj.height/height) * sizeH) / focal_length) * distance;
+        double h = (((obj.height / height) * sizeH) / focal_length) * distance;
         return  w * h;
     }
 }

@@ -28,6 +28,8 @@ public class PaintCameraActivity extends Activity
     private CVGLSurfaceView cvView;
     private RectangleView rectView;
     private RectF tempRect;
+    private float startX;
+    private float startY;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -55,27 +57,26 @@ public class PaintCameraActivity extends Activity
             @Override
             public boolean onTouch(View v, MotionEvent event)
             {
-                float x = (float) (int) event.getX();
+                float x = (float)(int) event.getX();
                 float y = (float)(int) event.getY();
 
                 switch (event.getAction())
                 {
                     case MotionEvent.ACTION_DOWN:
-                        tempRect = new RectF(x/screenPixelWidth, y/screenPixelHeight, x/screenPixelWidth, y/screenPixelHeight);
+                        tempRect = new RectF(x / screenPixelWidth, y / screenPixelHeight, x / screenPixelWidth, y / screenPixelHeight);
+                        startX = x / screenPixelWidth;
+                        startY = y / screenPixelHeight;
                         touchLocations[0] = event;
-                        Log.d(LOG_TAG, "Down TouchX"+x);
-                        Log.d(LOG_TAG, "Down TouchY"+y);
+                        Log.d(LOG_TAG, "Down Touch X " + x + " Y " + y);
                         break;
                     case MotionEvent.ACTION_MOVE:
                         if(tempRect != null)
                         {
-                            tempRect = new RectF(tempRect.left, tempRect.top, x/screenPixelWidth, y/screenPixelWidth);
+                            tempRect = new RectF(startX, startY, x / screenPixelWidth, y / screenPixelWidth);
                         }
                     case MotionEvent.ACTION_UP:
-                        //tempRect = null;
                         touchLocations[1] = event;
-                        Log.d(LOG_TAG, "Down TouchX"+x);
-                        Log.d(LOG_TAG, "Down TouchY"+y);
+                        Log.d(LOG_TAG, "Up Touch X " + x + " Y " + y);
                         break;
                 }
 
