@@ -96,7 +96,7 @@ extern "C" JNIEXPORT jobject JNICALL Java_independent_1study_paintcalculator_Nat
     glGenBuffers(1, &vbo);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STREAM_DRAW);
-
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     const char* vertexShaderCode = R"glsl(
             uniform mat4 uMVPMatrix;
             attribute vec4 vPosition;
@@ -110,10 +110,11 @@ extern "C" JNIEXPORT jobject JNICALL Java_independent_1study_paintcalculator_Nat
                                                     "  gl_FragColor = vColor;" +
                                                     "}"*/
     const char* fragmentShaderCode = R"glsl(
-    precision mediump float;
-    uniform vec4 vColor;
-    void main() {
-    gl_FragColor = vColor;
+    out vec4 outColor;
+
+    void main()
+    {
+        outColor = vec4(1.0, 1.0, 1.0, 1.0);
     })glsl";
 
     GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -135,17 +136,17 @@ extern "C" JNIEXPORT jobject JNICALL Java_independent_1study_paintcalculator_Nat
     glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, 0, 0);
     glEnableVertexAttribArray(posAttrib);
 
+    glBindFragDataLocation(shaderProgram, 0, "outColor");
+
     GLint vPos = glGetAttribLocation(shaderProgram, "vPosition");
 
     glVertexAttribPointer(vPos, 2,
                                 GL_FLOAT, false,
                                 4, vertices);
 
-    GLint vCol = glGetUniformLocation(shaderProgram, "vColor");
+    //GLint vCol = glGetUniformLocation(shaderProgram, "vColor");
 
-    glUniform4f(vCol, 1.0f, 1.0f, 1.0f, 1.0f);
-
-    glColor3f(0.5f, 0.5f, 0.5f);
+    //glUniform4f(vCol, 1.0f, 1.0f, 1.0f, 1.0f);
 
     glDrawArrays(GL_LINE_LOOP, 0, 4);
     glDisable(GL_TEXTURE_2D);
