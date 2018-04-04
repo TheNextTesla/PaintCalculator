@@ -134,20 +134,15 @@ extern "C" JNIEXPORT jobject JNICALL Java_independent_1study_paintcalculator_Nat
     glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, 0, 0);
     glEnableVertexAttribArray(posAttrib);
 
-    GLuint vao;
-    glGetAttribLocation(&vao, shaderProgram, "vPosition")
-    glVertexAttribPointer(&vao, 2,
+    glVertexAttribPointer(glGetAttribLocation(shaderProgram, "vPosition"), 2,
                                 GL_FLOAT, false,
                                 4, verticies);
 
-    GLuint vco;
-    glGetUniformLocation(&vco, shaderProgram, "vColor");
-    glUniform4fv(&vco, 1, color, 0);
-
+    glUniform4fv(glGetUniformLocation(shaderProgram, "vColor"), 1, color, 0);
 
     glDrawArrays(GL_LINE_LOOP, 0, 4);
     glDisable(GL_TEXTURE_2D);
-    glDisableVertexAttribArray(&vao);
+    glDisableVertexAttribArray(glGetAttribLocation(shaderProgram, "vPosition"));
     
     jclass cls = (env)->FindClass("org/opencv/core/Rect");
     jmethodID constructor = env->GetMethodID(cls, "<init>", "(IIII)V");
