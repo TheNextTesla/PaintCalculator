@@ -85,8 +85,8 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
         //Rect wallBlob = NativeBridge.blobAnalyze(texIn, texOut, width, height, 0, 255, 0, 255, 0, 255);
         //Log.d(LOG_TAG, "X " + wallBlob.x + " Y " + wallBlob.y);
 
-        //return true;
-        return false;
+        return true;
+        //return false;
     }
 
     public double calculateArea(Rect obj, double distance, int width, int height){
