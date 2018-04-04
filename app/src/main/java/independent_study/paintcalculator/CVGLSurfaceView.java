@@ -103,7 +103,7 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
         return  w * h;
     }
 
-    public void displayArea(double area, int time){
-        Snackbar.make(this, area + " ft^2", time);
+    public void displayArea(double area, boolean length){
+        Snackbar.make(this, area + " ft^2", (length ? Snackbar.LENGTH_LONG : Snackbar.LENGTH_SHORT));
     }
 }
