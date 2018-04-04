@@ -109,11 +109,12 @@ extern "C" JNIEXPORT jobject JNICALL Java_independent_1study_paintcalculator_Nat
             "  gl_Position = uMVPMatrix * vPosition;" +
             "}")glsl";
 
-    const char* fragmentShaderCode = R"glsl("precision mediump float;" +
-                 "uniform vec4 vColor;" +
-                 "void main() {" +
-                 "  gl_FragColor = vColor;" +
-                 "}")glsl";
+    const char* fragmentShaderCode = R"glsl("out vec4 outColor;
+
+                                             void main()
+                                             {
+                                                 outColor = vec4(1.0, 1.0, 1.0, 1.0);
+                                             }")glsl";
 
     GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertexShader, 1, &vertexShaderCode, NULL);
