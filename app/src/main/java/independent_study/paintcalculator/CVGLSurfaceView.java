@@ -28,7 +28,12 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
         sizeH = Math.tan(c.getParameters().getVerticalViewAngle()/2)*2*c.getParameters().getFocalLength();
         c.release();
         */
+    }
 
+    @Override
+    public void onCameraViewStarted(int width, int height)
+    {
+        Log.d(LOG_TAG, String.format("onCameraViewStarted w%d, h%d", width, height));
         float[] focalLengths = getCameraCharacteristics().get(CameraCharacteristics.LENS_INFO_AVAILABLE_FOCAL_LENGTHS);
 
         if(focalLengths != null && focalLengths.length > 0)
@@ -48,12 +53,6 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
             sizeH = Double.NaN;
             sizeW = Double.NaN;
         }
-    }
-
-    @Override
-    public void onCameraViewStarted(int width, int height)
-    {
-        Log.d(LOG_TAG, String.format("onCameraViewStarted w%d, h%d", width, height));
     }
 
     @Override
@@ -83,11 +82,11 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
         Log.d(LOG_TAG, "Width " + width + " Height " + height);
         //NativeBridge.testDraw(texIn, texOut, width, height);
 
-        Rect wallBlob = NativeBridge.blobAnalyze(texIn, texOut, width, height, 0, 255, 0, 255, 0, 255);
-        Log.d(LOG_TAG, "X " + wallBlob.x + " Y " + wallBlob.y);
+        //Rect wallBlob = NativeBridge.blobAnalyze(texIn, texOut, width, height, 0, 255, 0, 255, 0, 255);
+        //Log.d(LOG_TAG, "X " + wallBlob.x + " Y " + wallBlob.y);
 
-        return true;
-        //return false;
+        //return true;
+        return false;
     }
 
     public double calculateArea(Rect obj, double distance, int width, int height){
