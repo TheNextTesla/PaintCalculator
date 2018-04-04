@@ -126,6 +126,7 @@ extern "C" JNIEXPORT jobject JNICALL Java_independent_1study_paintcalculator_Nat
     GLuint shaderProgram = glCreateProgram();
     glAttachShader(shaderProgram, vertexShader);
     glAttachShader(shaderProgram, fragmentShader);
+    
 
     glLinkProgram(shaderProgram);
     glUseProgram(shaderProgram);
