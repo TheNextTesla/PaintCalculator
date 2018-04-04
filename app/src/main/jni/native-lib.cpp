@@ -98,22 +98,23 @@ extern "C" JNIEXPORT jobject JNICALL Java_independent_1study_paintcalculator_Nat
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STREAM_DRAW);
 
     const char* vertexShaderCode = R"glsl(
-            // This matrix member variable provides a hook to manipulate
-            // the coordinates of the objects that use this vertex shader
-            "uniform mat4 uMVPMatrix;" +
-            "attribute vec4 vPosition;" +
-            "void main() {" +
-            // The matrix must be included as a modifier of gl_Position.
-            // Note that the uMVPMatrix factor *must be first* in order
-            // for the matrix multiplication product to be correct.
-            "  gl_Position = uMVPMatrix * vPosition;" +
-            "}")glsl";
+            uniform mat4 uMVPMatrix;
+            attribute vec4 vPosition;
+            void main() {
+            gl_Position = uMVPMatrix * vPosition;
+            })glsl";
 
-    const char* fragmentShaderCode = R"glsl( "precision mediump float;" +
+/*"precision mediump float;" +
                                                     "uniform vec4 vColor;" +
                                                     "void main() {" +
                                                     "  gl_FragColor = vColor;" +
-                                                    "}")glsl";
+                                                    "}"*/
+    const char* fragmentShaderCode = R"glsl( out vec4 outColor;
+
+                                                          void main()
+                                                          {
+                                                              outColor = vec4(1.0, 1.0, 1.0, 1.0);
+                                                          })glsl";
 
     GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertexShader, 1, &vertexShaderCode, NULL);
@@ -138,7 +139,7 @@ extern "C" JNIEXPORT jobject JNICALL Java_independent_1study_paintcalculator_Nat
                                 GL_FLOAT, false,
                                 4, vertices);
 
-    glUniform4fv(glGetUniformLocation(shaderProgram, "vColor"), 1.0f, 1.0f, 1.0f, 1.0f);
+   // glUniform4f(glGetUniformLocation(shaderProgram, "vColor"), 1.0f, 1.0f, 1.0f, 1.0f);
 
     glDrawArrays(GL_LINE_LOOP, 0, 4);
     glDisable(GL_TEXTURE_2D);
