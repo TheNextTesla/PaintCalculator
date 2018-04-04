@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 public class RectangleView extends View
@@ -33,7 +34,10 @@ public class RectangleView extends View
         super.onDraw(canvas);
 
         if(rect == null)
+        {
+            Log.d("Rectangle", "W "+ canvas.getWidth() + " H " + canvas.getHeight());
             return;
+        }
 
         canvas.drawRect(rect.left, rect.top, rect.right, rect.bottom, paint);
     }

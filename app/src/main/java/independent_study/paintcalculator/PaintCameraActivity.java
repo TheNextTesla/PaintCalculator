@@ -78,6 +78,9 @@ public class PaintCameraActivity extends Activity
                         break;
                 }
 
+                if(tempRect != null)
+                    tempRect.sort();
+                //rectView.invalidate();
                 rectView.setRectToDraw(tempRect);
                 return true;
             }
