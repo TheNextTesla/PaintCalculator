@@ -109,12 +109,11 @@ extern "C" JNIEXPORT jobject JNICALL Java_independent_1study_paintcalculator_Nat
             "  gl_Position = uMVPMatrix * vPosition;" +
             "}")glsl";
 
-    const char* fragmentShaderCode = R"glsl("out vec4 outColor;
-
-                                             void main()
-                                             {
-                                                 outColor = vec4(1.0, 1.0, 1.0, 1.0);
-                                             }")glsl";
+    const char* fragmentShaderCode = R"glsl( "precision mediump float;" +
+                                                    "uniform vec4 vColor;" +
+                                                    "void main() {" +
+                                                    "  gl_FragColor = vColor;" +
+                                                    "}")glsl";
 
     GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertexShader, 1, &vertexShaderCode, NULL);
@@ -136,11 +135,19 @@ extern "C" JNIEXPORT jobject JNICALL Java_independent_1study_paintcalculator_Nat
     glEnableVertexAttribArray(posAttrib);
 
     GLuint vao;
-    glGenVertexArrays(1, &vao);
-    glBindVertexArray(&vao);
+    glGetAttribLocation(&vao, shaderProgram, "vPosition")
+    glVertexAttribPointer(&vao, 2,
+                                GL_FLOAT, false,
+                                4, verticies);
+
+    GLuint vco;
+    glGetUniformLocation(&vco, shaderProgram, "vColor");
+    glUniform4fv(&vco, 1, color, 0);
+
 
     glDrawArrays(GL_LINE_LOOP, 0, 4);
     glDisable(GL_TEXTURE_2D);
+    glDisableVertexAttribArray(&vao);
     
     jclass cls = (env)->FindClass("org/opencv/core/Rect");
     jmethodID constructor = env->GetMethodID(cls, "<init>", "(IIII)V");
