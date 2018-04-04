@@ -9,7 +9,7 @@
         android:layout_height="match_parent" />
 
     <independent_study.paintcalculator.RectangleView
-        android:id="@+id/rectangleView"
+        android:id="@+id/RectangleView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </RelativeLayout>

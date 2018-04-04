@@ -2,7 +2,6 @@ package independent_study.paintcalculator;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -16,8 +15,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import org.opencv.android.CameraGLSurfaceView;
-
 public class PaintCameraActivity extends Activity
 {
     private static final String LOG_TAG = "PaintCameraActivity";
@@ -25,7 +22,8 @@ public class PaintCameraActivity extends Activity
     private MotionEvent[] touchLocations = new MotionEvent[2];
     private int screenPixelWidth;
     private int screenPixelHeight;
-    private CVGLSurfaceView view;
+    private CVGLSurfaceView cvView;
+    private RectangleView rectView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -38,12 +36,13 @@ public class PaintCameraActivity extends Activity
 
         requestPermissions();
         setContentView(R.layout.activity_paintcamera);
-        view = findViewById(R.id.CVGLSurfaceView);
-        view.setCameraTextureListener(view);
+        cvView = findViewById(R.id.CVGLSurfaceView);
+        rectView = findViewById(R.id.RectangleView);
+        cvView.setCameraTextureListener(cvView);
         Log.d(LOG_TAG, "onCreate");
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
-        ((Activity) view.getContext()).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        ((Activity) cvView.getContext()).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         screenPixelWidth = displayMetrics.widthPixels;
         screenPixelHeight = displayMetrics.heightPixels;
 
@@ -52,7 +51,6 @@ public class PaintCameraActivity extends Activity
             @Override
             public boolean onTouch(View v, MotionEvent event)
             {
-
                 int x = (int) event.getX();
                 int y = (int) event.getY();
 
@@ -60,20 +58,20 @@ public class PaintCameraActivity extends Activity
                 {
                     case MotionEvent.ACTION_DOWN:
                         touchLocations[0] = event;
-                        Log.d(LOG_TAG, "TouchX"+x);
-                        Log.d(LOG_TAG, "TouchY"+y);
+                        Log.d(LOG_TAG, "Down TouchX"+x);
+                        Log.d(LOG_TAG, "Down TouchY"+y);
                         break;
                     case MotionEvent.ACTION_UP:
                         touchLocations[1] = event;
-                        Log.d(LOG_TAG, "TouchX"+x);
-                        Log.d(LOG_TAG, "TouchY"+y);
+                        Log.d(LOG_TAG, "Down TouchX"+x);
+                        Log.d(LOG_TAG, "Down TouchY"+y);
                         break;
                 }
 
                 return true;
             }
         };
-        view.setOnTouchListener(handleTouch);
+        cvView.setOnTouchListener(handleTouch);
     }
 
     public MotionEvent[] getTouchCordinates()
@@ -83,12 +81,12 @@ public class PaintCameraActivity extends Activity
     //adjusts screen touch loaction to camera pixel loaction
     public int adjustScreenTouchX(int screenX)
     {
-        return((screenX/screenPixelWidth)*view.getWidth());
+        return((screenX/screenPixelWidth)* cvView.getWidth());
     }
     //adjusts screen touch loaction to camera pixel loaction
     public int adjustScreenTouchY(int screenY)
     {
-        return((screenY/screenPixelHeight)*view.getHeight());
+        return((screenY/screenPixelHeight)* cvView.getHeight());
     }
 
     @Override
