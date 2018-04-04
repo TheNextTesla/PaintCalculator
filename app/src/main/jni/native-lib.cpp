@@ -87,9 +87,9 @@ extern "C" JNIEXPORT jobject JNICALL Java_independent_1study_paintcalculator_Nat
     glVertex2f(1.0f, 2.0f);
     glEnd();*/
     float vertices[] = {
-         0.0f,  0.5f, // Vertex 1 (X, Y)
-         0.5f, -0.5f, // Vertex 2 (X, Y)
-        -0.5f, -0.5f,  // Vertex 3 (X, Y)
+         -0.5f,  -0.5f, // Vertex 1 (X, Y)
+         -0.5f, 0.5f, // Vertex 2 (X, Y)
+        0.5f, -0.5f,  // Vertex 3 (X, Y)
         0.5f, 0.5f
     };
     GLuint vbo;
@@ -127,7 +127,6 @@ extern "C" JNIEXPORT jobject JNICALL Java_independent_1study_paintcalculator_Nat
     GLuint shaderProgram = glCreateProgram();
     glAttachShader(shaderProgram, vertexShader);
     glAttachShader(shaderProgram, fragmentShader);
-    
 
     glLinkProgram(shaderProgram);
     glUseProgram(shaderProgram);
@@ -137,11 +136,10 @@ extern "C" JNIEXPORT jobject JNICALL Java_independent_1study_paintcalculator_Nat
     glEnableVertexAttribArray(posAttrib);
 
     GLuint vao;
-    glGenBuffers(1, &vao);
-    glBindBuffer(GL_ARRAY_BUFFER, vao);
+    glGenVertexArrays(1, &vao);
+    glBindVertexArray(&vao);
 
     glDrawArrays(GL_LINE_LOOP, 0, 4);
-
     glDisable(GL_TEXTURE_2D);
     
     jclass cls = (env)->FindClass("org/opencv/core/Rect");
