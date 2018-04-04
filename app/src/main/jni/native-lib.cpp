@@ -21,12 +21,12 @@ extern "C" JNIEXPORT void JNICALL Java_independent_1study_paintcalculator_Native
     image.create(height, width, CV_8UC4);
     glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, image.data);
 
-    /*
+    LOGD("Test Read Complete %d", image.data[0]);
+
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, texOut);
     //https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glTexSubImage2D.xhtml
     glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, image.data);
-    */
 }
 
 extern "C" JNIEXPORT jobject JNICALL Java_independent_1study_paintcalculator_NativeBridge_blobAnalyze(JNIEnv* env, jint texIn, jint texOut, jint width, jint height,
