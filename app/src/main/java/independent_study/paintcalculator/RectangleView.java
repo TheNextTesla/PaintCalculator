@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -12,7 +13,7 @@ import android.view.View;
 public class RectangleView extends View
 {
     private Paint paint;
-    private Rect rect;
+    private RectF rect;
 
     RectangleView(Context context, AttributeSet attributeSet)
     {
@@ -23,7 +24,7 @@ public class RectangleView extends View
         paint.setStrokeWidth(10);
     }
 
-    public void setRectToDraw(Rect rect)
+    public void setRectToDraw(RectF rect)
     {
         this.rect = rect;
     }
@@ -39,6 +40,6 @@ public class RectangleView extends View
             return;
         }
 
-        canvas.drawRect(rect.left, rect.top, rect.right, rect.bottom, paint);
+        canvas.drawRect(rect.left*canvas.getWidth(), rect.top*canvas.getHeight(), rect.right*canvas.getWidth(), rect.bottom*canvas.getHeight(), paint);
     }
 }
