@@ -1,8 +1,10 @@
 package independent_study.paintcalculator;
 
 import android.content.Context;
+import android.graphics.RectF;
 import android.hardware.Camera;
 import android.hardware.camera2.CameraCharacteristics;
+import android.support.design.widget.Snackbar;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.SizeF;
@@ -20,7 +22,6 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
     public CVGLSurfaceView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
-        
         /*
         Camera c = Camera.open();
         focal_length = c.getParameters().getFocalLength();
@@ -29,6 +30,7 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
         c.release();
         */
     }
+
 
     @Override
     public void onCameraViewStarted(int width, int height)
@@ -76,15 +78,15 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
     }
 
     @Override
-    public boolean onCameraTexture(int texIn, int texOut, int width, int height)
-    {
+    public boolean onCameraTexture(int texIn, int texOut, int width, int height) {
         //Call Native Processing Code Here - Can Pass Parameters to OpenCV
         //Log.d(LOG_TAG, "Width " + width + " Height " + height);
         //NativeBridge.testDraw(texIn, texOut, width, height);
 
-        //Rect wallBlob = NativeBridge.blobAnalyze(texIn, texOut, width, height, 0, 255, 0, 255, 0, 255);
-        //Log.d(LOG_TAG, "X " + wallBlob.x + " Y " + wallBlob.y);
+        Rect wallBlob = NativeBridge.blobAnalyze(texIn, texOut, width, height, 0, 255, 0, 255, 0, 255);
+        Log.d(LOG_TAG, "X " + wallBlob.x + " Y " + wallBlob.y);
 
+        //rectView.setRectToDraw(new RectF(wallBlob.x/width, wallBlob.y/width, (wallBlob.x + wallBlob.width )/ width, (wallBlob.height + wallBlob.y) / height));
         //return true;
         return false;
     }
@@ -93,5 +95,15 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
         double w = (((obj.width / width) * sizeW) / focal_length) * distance;
         double h = (((obj.height / height) * sizeH) / focal_length) * distance;
         return  w * h;
+    }
+
+    public double calculateArea(RectF obj, double distance, int width, int height){
+        double w = (((obj.width()) * sizeW) / focal_length) * distance;
+        double h = (((obj.height()) * sizeH) / focal_length) * distance;
+        return  w * h;
+    }
+
+    public void displayArea(double area, boolean length){
+        Snackbar.make(this, area + " ft^2", (length ? Snackbar.LENGTH_LONG : Snackbar.LENGTH_SHORT));
     }
 }
