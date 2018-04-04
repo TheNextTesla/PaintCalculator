@@ -60,6 +60,28 @@ extern "C" JNIEXPORT jobject JNICALL Java_independent_1study_paintcalculator_Nat
         walls.push_back(rect);
     }
 
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glEnable(GL_TEXTURE_2D)
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, texOut);
+    glBegin(GL_LINES);
+       glVertex3f(largestWall.x, largestWall.y, 0);
+       glVertex3f(largestWall.x + largestWall.width, largestWall.y + largestWall.height, 0);
+    glEnd();
+    glBegin(GL_LINES);
+       glVertex3f(largestWall.x, largestWall.y, 0);
+       glVertex3f(largestWall.x, largestWall.y + largestWall.height, 0);
+    glEnd();
+     glBegin(GL_LINES);
+       glVertex3f(largestWall.x + largestWall.width, largestWall.y, 0);
+       glVertex3f(largestWall.x + largestWall.width, largestWall.y + largestWall.height, 0);
+    glEnd();
+     glBegin(GL_LINES);
+       glVertex3f(largestWall.x, largestWall.y + largestWall.height, 0);
+       glVertex3f(largestWall.x + largestWall.width, largestWall.y + largestWall.height, 0);
+    glEnd();
+    glDisable(GL_TEXTURE_2D);
+    
     jclass cls = (env)->FindClass("org/opencv/core/Rect");
     jmethodID constructor = env->GetMethodID(cls, "<init>", "(IIII)V");
     return env->NewObject(cls, constructor, largestWall.x, largestWall.y, largestWall.width, largestWall.height);
