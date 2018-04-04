@@ -136,10 +136,10 @@ extern "C" JNIEXPORT jobject JNICALL Java_independent_1study_paintcalculator_Nat
     glEnableVertexAttribArray(posAttrib);
 
     GLuint vao;
-    glGenVertexArrays(1, &vao);
-    glBindVertexArray(vao);
+    glGenBuffers(1, &vao);
+    glBindBuffers(vao);
 
-    glDrawArrays(GL_QUADS, 0, 3);
+    glDrawArrays(GL_LINE_LOOP, 0, 4);
 
     glDisable(GL_TEXTURE_2D);
     
