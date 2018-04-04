@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -26,7 +27,7 @@ public class PaintCameraActivity extends Activity
     private int screenPixelHeight;
     private CVGLSurfaceView cvView;
     private RectangleView rectView;
-    private Rect tempRect;
+    private RectF tempRect;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -60,7 +61,7 @@ public class PaintCameraActivity extends Activity
                 switch (event.getAction())
                 {
                     case MotionEvent.ACTION_DOWN:
-                        tempRect = new Rect(x, y, x, y);
+                        tempRect = new RectF(x/screenPixelWidth, y/screenPixelHeight, x/screenPixelWidth, y/screenPixelHeight);
                         touchLocations[0] = event;
                         Log.d(LOG_TAG, "Down TouchX"+x);
                         Log.d(LOG_TAG, "Down TouchY"+y);
@@ -68,7 +69,7 @@ public class PaintCameraActivity extends Activity
                     case MotionEvent.ACTION_MOVE:
                         if(tempRect != null)
                         {
-                            tempRect = new Rect(tempRect.left, tempRect.top, x, y);
+                            tempRect = new RectF(tempRect.left, tempRect.top, x/screenPixelWidth, y/screenPixelWidth);
                         }
                     case MotionEvent.ACTION_UP:
                         tempRect = null;
