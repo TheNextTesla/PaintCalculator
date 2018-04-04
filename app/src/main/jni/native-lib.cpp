@@ -136,7 +136,7 @@ extern "C" JNIEXPORT jobject JNICALL Java_independent_1study_paintcalculator_Nat
 
     glVertexAttribPointer(glGetAttribLocation(shaderProgram, "vPosition"), 2,
                                 GL_FLOAT, false,
-                                4, verticies);
+                                4, vertices);
 
     glUniform4fv(glGetUniformLocation(shaderProgram, "vColor"), 1, color, 0);
 
