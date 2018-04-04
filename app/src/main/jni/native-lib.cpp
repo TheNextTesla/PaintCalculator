@@ -59,11 +59,11 @@ extern "C" JNIEXPORT jobject JNICALL Java_independent_1study_paintcalculator_Nat
         LOGD("Contour Loop");
         walls.push_back(rect);
     }
-
+/*
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_TEXTURE_2D);
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, texOut);
+    glBindTexture(GL_TEXTURE_2D, texOut);/*
     /*glBegin(GL_LINES);
        glVertex3f(largestWall.x, largestWall.y, 0);
        glVertex3f(largestWall.x + largestWall.width, largestWall.y + largestWall.height, 0);
@@ -86,7 +86,7 @@ extern "C" JNIEXPORT jobject JNICALL Java_independent_1study_paintcalculator_Nat
     glVertex2f(2.0f, 2.0f);
     glVertex2f(1.0f, 2.0f);
     glEnd();*/
-    float vertices[] = {
+  /*  float vertices[] = {
          0.0f,  0.5f, // Vertex 1 (X, Y)
          0.5f, -0.5f, // Vertex 2 (X, Y)
         -0.5f, -0.5f,  // Vertex 3 (X, Y)
@@ -108,6 +108,7 @@ extern "C" JNIEXPORT jobject JNICALL Java_independent_1study_paintcalculator_Nat
             // for the matrix multiplication product to be correct.
             "  gl_Position = uMVPMatrix * vPosition;" +
             "}")glsl";
+            */
 
     /*
     const char* fragmentShaderCode = R"glsl("precision mediump float;" +
