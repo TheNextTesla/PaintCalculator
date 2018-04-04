@@ -22,6 +22,7 @@ public class CVGLSurfaceView extends CameraGLSurfaceView implements CameraGLSurf
         focal_length = c.getParameters().getFocalLength();
         sizeW = Math.tan(c.getParameters().getHorizontalViewAngle()/2)*2*c.getParameters().getFocalLength();
         sizeH = Math.tan(c.getParameters().getVerticalViewAngle()/2)*2*c.getParameters().getFocalLength();
+        c.release();
         //setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
     }
 
