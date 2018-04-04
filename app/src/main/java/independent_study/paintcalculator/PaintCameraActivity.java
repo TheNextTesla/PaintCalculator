@@ -55,8 +55,8 @@ public class PaintCameraActivity extends Activity
             @Override
             public boolean onTouch(View v, MotionEvent event)
             {
-                int x = (int) event.getX();
-                int y = (int) event.getY();
+                float x = (float) (int) event.getX();
+                float y = (float)(int) event.getY();
 
                 switch (event.getAction())
                 {
@@ -72,7 +72,7 @@ public class PaintCameraActivity extends Activity
                             tempRect = new RectF(tempRect.left, tempRect.top, x/screenPixelWidth, y/screenPixelWidth);
                         }
                     case MotionEvent.ACTION_UP:
-                        tempRect = null;
+                        //tempRect = null;
                         touchLocations[1] = event;
                         Log.d(LOG_TAG, "Down TouchX"+x);
                         Log.d(LOG_TAG, "Down TouchY"+y);
@@ -81,8 +81,9 @@ public class PaintCameraActivity extends Activity
 
                 if(tempRect != null)
                     tempRect.sort();
-                //rectView.invalidate();
+
                 rectView.setRectToDraw(tempRect);
+                rectView.invalidate();
                 return true;
             }
         };
