@@ -80,12 +80,66 @@ extern "C" JNIEXPORT jobject JNICALL Java_independent_1study_paintcalculator_Nat
        glVertex3f(largestWall.x, largestWall.y + largestWall.height, 0);
        glVertex3f(largestWall.x + largestWall.width, largestWall.y + largestWall.height, 0);
     glEnd();*/
-    glBegin(GL_QUAD);
-    glVertex2f(1.0f, 1.0f)
-    glVertex2f(2.0f, 1.0f)
-    glVertex2f(2.0f, 2.0f)
-    glVertex2f(1.0f, 2.0f)
-    glEnd();
+    /*glBegin(GL_QUADS);
+    glVertex2f(1.0f, 1.0f);
+    glVertex2f(2.0f, 1.0f);
+    glVertex2f(2.0f, 2.0f);
+    glVertex2f(1.0f, 2.0f);
+    glEnd();*/
+    float vertices[] = {
+         0.0f,  0.5f, // Vertex 1 (X, Y)
+         0.5f, -0.5f, // Vertex 2 (X, Y)
+        -0.5f, -0.5f,  // Vertex 3 (X, Y)
+        0.5f, 0.5f
+    };
+    GLuint vbo;
+    glGenBuffers(1, &vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STREAM_DRAW);
+
+    const char* vertexShaderCode = R"glsl(
+            // This matrix member variable provides a hook to manipulate
+            // the coordinates of the objects that use this vertex shader
+            "uniform mat4 uMVPMatrix;" +
+            "attribute vec4 vPosition;" +
+            "void main() {" +
+            // The matrix must be included as a modifier of gl_Position.
+            // Note that the uMVPMatrix factor *must be first* in order
+            // for the matrix multiplication product to be correct.
+            "  gl_Position = uMVPMatrix * vPosition;" +
+            "}")glsl";
+
+    const char* fragmentShaderCode = R"glsl("precision mediump float;" +
+                 "uniform vec4 vColor;" +
+                 "void main() {" +
+                 "  gl_FragColor = vColor;" +
+                 "}")glsl";
+
+    GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
+    glShaderSource(vertexShaderCode, 1, &vertexSource, NULL);
+    glCompileShader(vertexShaderCode);
+
+    GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+    glShaderSource(fragmentShaderCode, 1, &fragmentSource, NULL);
+    glCompileShader(fragmentShaderCode);
+
+    GLuint shaderProgram = glCreateProgram();
+    glAttachShader(shaderProgram, vertexShader);
+    glAttachShader(shaderProgram, fragmentShader);
+
+    glLinkProgram(shaderProgram);
+    glUseProgram(shaderProgram);
+
+    GLint posAttrib = glGetAttribLocation(shaderProgram, "position");
+    glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, 0, 0);
+    glEnableVertexAttribArray(posAttrib);
+
+    GLuint vao;
+    glGenVertexArrays(1, &vao);
+    glBindVertexArray(vao);
+
+    glDrawArrays(GL_QUADS, 0, 3);
+
     glDisable(GL_TEXTURE_2D);
     
     jclass cls = (env)->FindClass("org/opencv/core/Rect");
