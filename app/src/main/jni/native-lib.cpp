@@ -137,7 +137,7 @@ extern "C" JNIEXPORT jobject JNICALL Java_independent_1study_paintcalculator_Nat
 
     GLuint vao;
     glGenBuffers(1, &vao);
-    glBindBuffers(vao);
+    glBindBuffer(GL_ARRAY_BUFFER, vao);
 
     glDrawArrays(GL_LINE_LOOP, 0, 4);
 
