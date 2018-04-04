@@ -154,7 +154,7 @@ extern "C" JNIEXPORT jobject JNICALL Java_independent_1study_paintcalculator_Nat
 
     glDrawArrays(GL_LINE_LOOP, 0, 4);
     glDisable(GL_TEXTURE_2D);
-    glDisableVertexAttribArray(vPos);
+    //glDisableVertexAttribArray(vPos);
     
     jclass cls = (env)->FindClass("org/opencv/core/Rect");
     jmethodID constructor = env->GetMethodID(cls, "<init>", "(IIII)V");
