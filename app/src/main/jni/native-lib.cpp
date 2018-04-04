@@ -110,11 +110,10 @@ extern "C" JNIEXPORT jobject JNICALL Java_independent_1study_paintcalculator_Nat
                                                     "  gl_FragColor = vColor;" +
                                                     "}"*/
     const char* fragmentShaderCode = R"glsl(
-    out vec4 outColor;
 
     void main()
     {
-        outColor = vec4(1.0, 1.0, 1.0, 1.0);
+        gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
     })glsl";
 
     GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -136,13 +135,13 @@ extern "C" JNIEXPORT jobject JNICALL Java_independent_1study_paintcalculator_Nat
     glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, 0, 0);
     glEnableVertexAttribArray(posAttrib);
 
-    glBindFragDataLocation(shaderProgram, 0, "outColor");
+    //glBindFragDataLocation(shaderProgram, 0, "outColor");
 
     GLint vPos = glGetAttribLocation(shaderProgram, "vPosition");
 
-    glVertexAttribPointer(vPos, 2,
-                                GL_FLOAT, false,
-                                4, vertices);
+    // glVertexAttribPointer(vPos, 2,
+    //                            GL_FLOAT, false,
+    //                           4, vertices);
 
     //GLint vCol = glGetUniformLocation(shaderProgram, "vColor");
 
