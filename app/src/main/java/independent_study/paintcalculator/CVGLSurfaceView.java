@@ -103,6 +103,7 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
             if (Math.abs(prevSize - calculateArea(wallBlob, 0, width, height)) > SIZE_DIFFERENCE_TRESHHOLD_FOR_DISPLAY)
             {
                prevSize = calculateArea(wallBlob, , width, height);
+               InputActivity.isManualNotAutoSelect ? this.calculateHeight() : InputActivity.lengthInserted;
                displayArea(prevSize, true, 0,0, false);
             }
         }
