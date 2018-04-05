@@ -99,7 +99,6 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
         //Log.d(LOG_TAG, "Width " + width + " Height " + height);
         //NativeBridge.testDraw(texIn, texOut, width, height);
 
-        //TODO switch with actual boolean
         if(!InputActivity.isManualNotAutoSelected)
         {
             Rect wallBlob = NativeBridge.blobAnalyze(texIn, texOut, width, height, 0, 255, 0, 255, 0, 255);
@@ -107,8 +106,7 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
             rectView.setRectToDraw(new RectF(wallBlob.x / width, wallBlob.y / height, (wallBlob.x + wallBlob.width) / width, (wallBlob.y + wallBlob.height) / height));
             if (Math.abs(prevSize - calculateArea(wallBlob, 0, width, height)) > SIZE_DIFFERENCE_TRESHHOLD_FOR_DISPLAY)
             {
-               prevSize = calculateArea(wallBlob, , width, height);
-               InputActivity.isManualNotAutoSelect ? this.calculateHeight() : InputActivity.lengthInserted;
+               prevSize = calculateArea(wallBlob,InputActivity.isManualNotAutoSelected ? this.calculateDistance(InputActivity.lengthInserted, (wallBlob.y + wallBlob.height) / height) : InputActivity.lengthInserted, width, height);
                displayArea(prevSize, true, 0,0, false);
             }
         }
@@ -178,6 +176,6 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
     //Displays a snackbar with the area shown if length is true the duration is Snackbar.LENGTH_LONG if it is false the duration is Snackbar.LENGTH_SHORT
     public void displayArea(double area, boolean length, double width, double height, boolean displayWH)
     {
-        Snackbar.make(this, area + " ft^2" + (displayWH ? " Width: " + width + "ft " + " Height: " + height + "ft" : ""), (length ? Snackbar.LENGTH_LONG : Snackbar.LENGTH_SHORT)) .setAction("Does Nothing", null).show();
+        Snackbar.make(this, area + " in^2" + (displayWH ? " Width: " + width + "ft " + " Height: " + height + "ft" : ""), (length ? Snackbar.LENGTH_LONG : Snackbar.LENGTH_SHORT)) .setAction("Does Nothing", null).show();
     }
 }

@@ -86,8 +86,7 @@ public class PaintCameraActivity extends Activity
                             }
                         case MotionEvent.ACTION_UP:
                             touchLocations[1] = event;
-                            //TODO distance
-                            cvView.displayArea(cvView.calculateArea(tempRect, 0), true, cvView.calculateWidth(Math.abs(tempRect.right - tempRect.left), 0), cvView.calculateHeight(Math.abs(tempRect.top - tempRect.bottom), 0), true);
+                            cvView.displayArea(cvView.calculateArea(tempRect,InputActivity.isManualNotAutoSelected ? cvView.calculateDistance(InputActivity.lengthInserted, tempRect.bottom): InputActivity.lengthInserted), true, cvView.calculateWidth(Math.abs(tempRect.right - tempRect.left), 0), cvView.calculateHeight(Math.abs(tempRect.top - tempRect.bottom), 0), true);
                             Log.d(LOG_TAG, "Up Touch X " + x + " Y " + y);
                             break;
                     }
