@@ -42,6 +42,7 @@ public class PaintCameraActivity extends Activity
     private float startY;
 
     @Override
+    /** **/
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
@@ -105,17 +106,22 @@ public class PaintCameraActivity extends Activity
         cvView.setOnTouchListener(handleTouch);
     }
 
+    /**@return touchLocations
+     * touchLocations is an array that stores the location of touch down and touch up of the last touch interaction
+     * index 0 is the MotionEvent for touch down and index 1 is the MotionEvent for touch up**/
     public MotionEvent[] getTouchCordinates()
     {
         return(touchLocations);
     }
-    //adjusts screen touch loaction to camera pixel loaction
+
+    /**adjusts screen touch location to camera pixel location**/
     public int adjustScreenTouchX(int screenX)
     {
         return((screenX/screenPixelWidth)* cvView.getWidth());
     }
-    //adjusts screen touch loaction to camera pixel loaction
-    public int adjustScreenTouchY(int screenY)
+
+    /**adjusts screen touch location to camera pixel location**/
+     public int adjustScreenTouchY(int screenY)
     {
         return((screenY/screenPixelHeight)* cvView.getHeight());
     }
@@ -141,6 +147,9 @@ public class PaintCameraActivity extends Activity
         }
     }
 
+    /**Requests permissions to access the camera if the app does not currently have permissions to access the camera
+        If the app already has permission to access to camera the no action is preformed
+    **/
     private void requestPermissions()
     {
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)

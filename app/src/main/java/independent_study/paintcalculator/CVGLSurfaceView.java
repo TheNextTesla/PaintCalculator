@@ -68,12 +68,14 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
         }
     }
 
+    /** **/
     @Override
     public void onCameraViewStopped()
     {
         Log.d(LOG_TAG, "onCameraViewStopped");
     }
 
+    /** **/
     @Override
     public void surfaceCreated(SurfaceHolder holder)
     {
@@ -81,6 +83,7 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
         Log.d(LOG_TAG, "surfaceCreated");
     }
 
+    /** **/
     @Override
     public void surfaceDestroyed(SurfaceHolder holder)
     {
@@ -88,6 +91,7 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
         super.surfaceDestroyed(holder);
     }
 
+    /**Called every time a new texture from the camera is read **/
     @Override
     public boolean onCameraTexture(int texIn, int texOut, int width, int height)
     {
@@ -96,7 +100,8 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
         //NativeBridge.testDraw(texIn, texOut, width, height);
 
         //TODO switch with actual boolean
-        if(false) {
+        if(false)
+        {
             Rect wallBlob = NativeBridge.blobAnalyze(texIn, texOut, width, height, 0, 255, 0, 255, 0, 255);
             Log.d(LOG_TAG, "X " + wallBlob.x + " Y " + wallBlob.y);
             rectView.setRectToDraw(new RectF(wallBlob.x / width, wallBlob.y / height, (wallBlob.x + wallBlob.width) / width, (wallBlob.y + wallBlob.height) / height));
@@ -111,7 +116,7 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
         return false;
     }
 
-    //Calculates the area of the object using the formula obj size on sensor / focal length = obj size / distance Uses width and height to compute the size of the area on the sensor
+    /**Calculates the area of the object using the formula obj size on sensor / focal length = obj size / distance Uses width and height to compute the size of the area on the sensor**/
     public double calculateArea(Rect obj, double distance, int width, int height)
     {
         double w = (((obj.width / width) * sizeW) / focal_length) * distance;
@@ -119,7 +124,7 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
         return  w * h;
     }
 
-    //Calculates the area of the object using the formula obj size on sensor / focal length = obj size / distance
+    /**Calculates the area of the object using the formula obj size on sensor / focal length = obj size / distance**/
     public double calculateArea(RectF obj, double distance)
     {
         double w = (((obj.width()) * sizeW) / focal_length) * distance;
