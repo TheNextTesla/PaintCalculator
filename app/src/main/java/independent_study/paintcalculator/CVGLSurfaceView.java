@@ -16,16 +16,19 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
     //String for Logs
     private static final String LOG_TAG = "CVGLSurfaceView";
 
+    //The treshhold for a new message to be shown
     private static final double SIZE_DIFFERENCE_TRESHHOLD_FOR_DISPLAY = 5;
 
     //focal_length stores the focal length of the camera being used, sizeW stores the sensor width, sizeH stores the sensor height
     private double focal_length, sizeW, sizeH, verticleViewAngel;
 
+    //stores the previous size of the box found on the screen if the difference between the previous size and current size is greater than size difference threshold for display a new snackbar is shown
     private double prevSize = Double.MIN_VALUE;
 
+    //Stores the RectangleView from R.id.RectangleView
     private RectangleView rectView;
 
-    /****/
+    /**initializes rectView to a R.id.RectangleView and calls super constructor with arguments context and attrs**/
     public CVGLSurfaceView(Context context, AttributeSet attrs)
     {
         super(context, attrs);

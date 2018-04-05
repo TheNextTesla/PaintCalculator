@@ -30,9 +30,9 @@ public class PaintCameraActivity extends Activity
     private int screenPixelWidth;
     //Height of the screen in pixels
     private int screenPixelHeight;
-
+    //Stores the CVGLSurfaceView from R.id.CVGLSurfaceView
     private CVGLSurfaceView cvView;
-
+    //Stores the RectangleView from R.id.RectangleView
     private RectangleView rectView;
     //Temporary rectangle that stores the current rectangle drawn on the screen by the user
     private RectF tempRect;
@@ -63,6 +63,7 @@ public class PaintCameraActivity extends Activity
         screenPixelWidth = displayMetrics.widthPixels;
         screenPixelHeight = displayMetrics.heightPixels;
 
+        //touch handler
         View.OnTouchListener handleTouch = new View.OnTouchListener()
         {
             @Override
@@ -73,6 +74,8 @@ public class PaintCameraActivity extends Activity
                     float y = (float) (int) event.getY();
 
                     switch (event.getAction()) {
+                        //sets the tempRect to a new RectF with a left and right at current x/screenPixelWidth and a top and bottom at y/screenPixelHeight
+                        //sets startX and startY to x/screenPixelWidth and y/screenPixelWidth respectively for future use
                         case MotionEvent.ACTION_DOWN:
                             tempRect = new RectF(x / screenPixelWidth, y / screenPixelHeight, x / screenPixelWidth, y / screenPixelHeight);
                             startX = x / screenPixelWidth;
@@ -80,13 +83,15 @@ public class PaintCameraActivity extends Activity
                             touchLocations[0] = event;
                             Log.d(LOG_TAG, "Down Touch X " + x + " Y " + y);
                             break;
+                        //sets tempRect to a new RectF that has the same left and top but the right and bottom are set to x/screenPixelWidth and y/screenPixelWidth to update the rectangle to the current touch location on screen
                         case MotionEvent.ACTION_MOVE:
                             if (tempRect != null) {
                                 tempRect = new RectF(startX, startY, x / screenPixelWidth, y / screenPixelWidth);
                             }
+
                         case MotionEvent.ACTION_UP:
                             touchLocations[1] = event;
-                            cvView.displayArea(cvView.calculateArea(tempRect,InputActivity.isManualNotAutoSelected ? cvView.calculateDistance(InputActivity.lengthInserted, tempRect.bottom): InputActivity.lengthInserted), true, cvView.calculateWidth(Math.abs(tempRect.right - tempRect.left), 0), cvView.calculateHeight(Math.abs(tempRect.top - tempRect.bottom), 0), true);
+                            cvView.displayArea(cvView.calculateArea(tempRect,InputActivity.isManualNotAutoSelected ? cvView.calculateDistance(InputActivity.lengthInserted, tempRect.bottom): InputActivity.lengthInserted), true, cvView.calculateWidth(Math.abs(tempRect.right - tempRect.left), InputActivity.isManualNotAutoSelected ? cvView.calculateDistance(InputActivity.lengthInserted, tempRect.bottom): InputActivity.lengthInserted), cvView.calculateHeight(Math.abs(tempRect.top - tempRect.bottom), InputActivity.isManualNotAutoSelected ? cvView.calculateDistance(InputActivity.lengthInserted, tempRect.bottom): InputActivity.lengthInserted), true);
                             Log.d(LOG_TAG, "Up Touch X " + x + " Y " + y);
                             break;
                     }

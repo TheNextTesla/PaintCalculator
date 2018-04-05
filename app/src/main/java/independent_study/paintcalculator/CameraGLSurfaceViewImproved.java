@@ -10,6 +10,7 @@ import android.view.SurfaceHolder;
 
 public class CameraGLSurfaceViewImproved extends GLSurfaceView
 {
+    //String for use for logs
     private static final String LOGTAG = "CameraGLSurfaceView";
 
     public interface CameraTextureListener {

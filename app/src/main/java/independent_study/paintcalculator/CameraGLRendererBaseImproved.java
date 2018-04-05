@@ -19,6 +19,7 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 public abstract class CameraGLRendererBaseImproved implements GLSurfaceView.Renderer, SurfaceTexture.OnFrameAvailableListener {
+
     protected final String LOGTAG = "CameraGLRendererBase";
 
     // shaders
