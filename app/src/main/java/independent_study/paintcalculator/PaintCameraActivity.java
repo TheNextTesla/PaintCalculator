@@ -67,8 +67,7 @@ public class PaintCameraActivity extends Activity
         {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                //TODO switch with boolean
-                if (true)
+                if (InputActivity.isManualNotAutoSelected)
                 {
                     float x = (float) (int) event.getX();
                     float y = (float) (int) event.getY();
