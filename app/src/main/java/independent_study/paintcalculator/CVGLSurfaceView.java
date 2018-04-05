@@ -25,6 +25,7 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
 
     private RectangleView rectView;
 
+    /****/
     public CVGLSurfaceView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
@@ -42,7 +43,7 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
 
 
     @Override
-    //Initializes focal_length, sizeW, and sizeH if CameraCharacteristics provide non null returns. In the case of a null return focal_length, sizeW, or sizeH will be set to Double.NaN
+    /**Initializes focal_length, sizeW, and sizeH if CameraCharacteristics provide non null returns. In the case of a null return focal_length, sizeW, or sizeH will be set to Double.NaN**/
     public void onCameraViewStarted(int width, int height)
     {
         Log.d(LOG_TAG, String.format("onCameraViewStarted w%d, h%d", width, height));
@@ -68,14 +69,14 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
         }
     }
 
-    /** **/
+    /**prints onCameraViewStopped in debug log**/
     @Override
     public void onCameraViewStopped()
     {
         Log.d(LOG_TAG, "onCameraViewStopped");
     }
 
-    /** **/
+    /**prints surfaceCreated in debug log**/
     @Override
     public void surfaceCreated(SurfaceHolder holder)
     {
@@ -83,7 +84,7 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
         Log.d(LOG_TAG, "surfaceCreated");
     }
 
-    /** **/
+    /**prints surfaceDestroyed in debug log**/
     @Override
     public void surfaceDestroyed(SurfaceHolder holder)
     {
@@ -173,7 +174,7 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
         return Math.tan((percentageHeight - 0.5) * verticleViewAngel) * height;
     }
 
-    //Displays a snackbar with the area shown if length is true the duration is Snackbar.LENGTH_LONG if it is false the duration is Snackbar.LENGTH_SHORT
+    /**Displays a snackbar with the area shown if length is true the duration is Snackbar.LENGTH_LONG if it is false the duration is Snackbar.LENGTH_SHORT**/
     public void displayArea(double area, boolean length, double width, double height, boolean displayWH)
     {
         Snackbar.make(this, area + " in^2" + (displayWH ? " Width: " + width + "ft " + " Height: " + height + "ft" : ""), (length ? Snackbar.LENGTH_LONG : Snackbar.LENGTH_SHORT)) .setAction("Does Nothing", null).show();
