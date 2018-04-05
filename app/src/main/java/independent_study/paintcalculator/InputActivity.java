@@ -37,6 +37,7 @@ public class InputActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //Stores all of the (possibly) necessary UI Components as State Variables
         editTextInches = findViewById(R.id.editTextInches);
         radioButtonWallDistance = findViewById(R.id.radioButtonWallDistance);
         radioButtonPersonHeight = findViewById(R.id.radioButtonPersonHeight);
@@ -46,6 +47,7 @@ public class InputActivity extends AppCompatActivity
         radioButtonAuto = findViewById(R.id.radioButtonAuto);
         radioGroupSelection = findViewById(R.id.radioGroup2);
 
+        //Adds the Listener that makes the button go to the camera (when applicable)
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener()
         {
@@ -66,9 +68,14 @@ public class InputActivity extends AppCompatActivity
         });
     }
 
-
+    /**
+     * Makes sure that all of the UI info entry is filled out
+     * Also loads up the static variables (for lazy outside class reading) with responses
+     * @return Whether or not all of the info entries are filled properly
+     */
     private boolean allFormsFilled()
     {
+        //Parses Length from String
         double length = Double.NaN;
         try
         {
@@ -80,6 +87,7 @@ public class InputActivity extends AppCompatActivity
             return false;
         }
 
+        //Determines Boolean State By Matching the Id of the Selected Radio Button to R.id
         boolean isHeightNotDistance;
         boolean isManualNotAuto;
         try
@@ -111,6 +119,7 @@ public class InputActivity extends AppCompatActivity
             return false;
         }
 
+        //Sets Static Variables (if it makes it that far)
         isHeightNotDistanceSelected = isHeightNotDistance;
         isManualNotAutoSelected = isManualNotAuto;
         lengthInserted = length;
@@ -118,6 +127,9 @@ public class InputActivity extends AppCompatActivity
         return true;
     }
 
+    /**
+     * Starts the Camera Viewing Activity with An Intent
+     */
     private void switchToCamera()
     {
         Intent intent = new Intent(this, PaintCameraActivity.class);
