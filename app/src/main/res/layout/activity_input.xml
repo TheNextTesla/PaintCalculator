@@ -23,7 +23,7 @@
 
     <include
         layout="@layout/content_input"/>
-        <!--android:layout_height="517dp" /> --> 
+        <!--android:layout_height="517dp" /> -->
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
