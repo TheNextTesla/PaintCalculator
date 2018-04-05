@@ -91,7 +91,7 @@ public class PaintCameraActivity extends Activity
 
                         case MotionEvent.ACTION_UP:
                             touchLocations[1] = event;
-                            cvView.displayArea(cvView.calculateArea(tempRect,InputActivity.isManualNotAutoSelected ? cvView.calculateDistance(InputActivity.lengthInserted, tempRect.bottom): InputActivity.lengthInserted), true, cvView.calculateWidth(Math.abs(tempRect.right - tempRect.left), InputActivity.isManualNotAutoSelected ? cvView.calculateDistance(InputActivity.lengthInserted, tempRect.bottom): InputActivity.lengthInserted), cvView.calculateHeight(Math.abs(tempRect.top - tempRect.bottom), InputActivity.isManualNotAutoSelected ? cvView.calculateDistance(InputActivity.lengthInserted, tempRect.bottom): InputActivity.lengthInserted), true);
+                            cvView.displayArea(cvView.calculateArea(tempRect,InputActivity.isHeightNotDistanceSelected ? cvView.calculateDistance(InputActivity.lengthInserted, tempRect.bottom): InputActivity.lengthInserted), true, cvView.calculateWidth(Math.abs(tempRect.right - tempRect.left), InputActivity.isHeightNotDistanceSelected ? cvView.calculateDistance(InputActivity.lengthInserted, tempRect.bottom): InputActivity.lengthInserted), cvView.calculateHeight(Math.abs(tempRect.top - tempRect.bottom), InputActivity.isHeightNotDistanceSelected ? cvView.calculateDistance(InputActivity.lengthInserted, tempRect.bottom): InputActivity.lengthInserted), true);
                             Log.d(LOG_TAG, "Up Touch X " + x + " Y " + y);
                             break;
                     }

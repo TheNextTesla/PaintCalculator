@@ -20,7 +20,7 @@ public class RectangleView extends View
     private RectF rect;
 
     /**View that draws a rectangle on the screen**/
-    RectangleView(Context context, AttributeSet attributeSet)
+    public RectangleView(Context context, AttributeSet attributeSet)
     {
         super(context, attributeSet);
         paint = new Paint();

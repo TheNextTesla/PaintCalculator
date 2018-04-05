@@ -110,7 +110,7 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
             rectView.setRectToDraw(new RectF(wallBlob.x / width, wallBlob.y / height, (wallBlob.x + wallBlob.width) / width, (wallBlob.y + wallBlob.height) / height));
             if (Math.abs(prevSize - calculateArea(wallBlob, 0, width, height)) > SIZE_DIFFERENCE_TRESHHOLD_FOR_DISPLAY)
             {
-               prevSize = calculateArea(wallBlob,InputActivity.isManualNotAutoSelected ? this.calculateDistance(InputActivity.lengthInserted, (wallBlob.y + wallBlob.height) / height) : InputActivity.lengthInserted, width, height);
+               prevSize = calculateArea(wallBlob,InputActivity.isHeightNotDistanceSelected ? this.calculateDistance(InputActivity.lengthInserted, (wallBlob.y + wallBlob.height) / height) : InputActivity.lengthInserted, width, height);
                displayArea(prevSize, true, 0,0, false);
             }
         }
@@ -124,7 +124,7 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
     {
         double w = (((obj.width / width) * sizeW) / focal_length) * distance;
         double h = (((obj.height / height) * sizeH) / focal_length) * distance;
-        return  w * h;
+        return  Math.abs(w * h);
     }
 
     /**Calculates the area of the object using the formula obj size on sensor / focal length = obj size / distance**/
@@ -135,17 +135,15 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
         Log.i(LOG_TAG, "distance: " + distance);
         double w = (((obj.width()) * sizeW) / focal_length) * distance;
         double h = (((obj.height()) * sizeH) / focal_length) * distance;
-        return  w * h;
+        return  Math.abs(w * h);
     }
 
     /**
      * Calculates Width of an object given the percentage of the width of the sensor that it occupies and the distance from the object
      * Object Size on Sensor / Focal Length = Object Size / Distance
      * Object Size on Sensor * Distance / Focal Length = Object Size
-     * @param percentSensor
-     * percent of image taken up by object 1.00 = 100% 0.0 = 0%
-     * @param distance
-     * distance of object from camera
+     * @param percentSensor percent of image taken up by object 1.00 = 100% 0.0 = 0%
+     * @param distance distance of object from camera
      **/
     public double calculateWidth(double percentSensor, double distance)
     {
@@ -156,10 +154,8 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
      * Calculates Height of an object given the percentage of the height of the sensor that it occupies and the distance from the object
      * Object Size on Sensor / Focal Length = Object Size / Distance
      * Object Size on Sensor * Distance / Focal Length = Object Size
-     * @param percentSensor
-     * percent of image taken up by object 1.00 = 100% 0.0 = 0%
-     * @param distance
-     * distance of object from camera
+     * @param percentSensor percent of image taken up by object 1.00 = 100% 0.0 = 0%
+     * @param distance distance of object from camera
      **/
     public double calculateHeight(double percentSensor, double distance)
     {
@@ -167,13 +163,10 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
     }
 
     /**
-     * Calculates the distance of the camera from the wall using by finding the angel of botton wall towards the camera
-     * @param height
-     * height of camera
-     * @param percentageHeight
-     * the y location of the ground in the image expressed as a percentage of the total size of the image
-     * @return
-     * the distance of the camera from the object
+     * Calculates the distance of the camera from the wall using by finding the angel of bottom wall towards the camera
+     * @param height height of camera
+     * @param percentageHeight the y location of the ground in the image expressed as a percentage of the total size of the image
+     * @return the distance of the camera from the object
      */
     public double calculateDistance(double height, double percentageHeight)
     {
@@ -183,6 +176,6 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
     /**Displays a snackbar with the area shown if length is true the duration is Snackbar.LENGTH_LONG if it is false the duration is Snackbar.LENGTH_SHORT**/
     public void displayArea(double area, boolean length, double width, double height, boolean displayWH)
     {
-        Snackbar.make(this, area + " in^2" + (displayWH ? " Width: " + width + "ft " + " Height: " + height + "ft" : ""), (length ? Snackbar.LENGTH_LONG : Snackbar.LENGTH_SHORT)) .setAction("Does Nothing", null).show();
+        Snackbar.make(this, area + " in^2" + (displayWH ? " Width: " + width + "in " + " Height: " + height + "in" : ""), (length ? Snackbar.LENGTH_LONG : Snackbar.LENGTH_SHORT)) .setAction("Does Nothing", null).show();
     }
 }

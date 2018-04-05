@@ -31,7 +31,6 @@
         <activity
             android:name=".PaintCameraActivity"
             android:label="Paint Calculator">
-
         </activity>
         <activity
             android:name=".InputActivity"
