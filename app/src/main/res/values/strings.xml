@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">PaintCalculator</string>
-    <string name="title_activity_input">InputActivity</string>
+    <string name="title_activity_input">Paint Calculator</string>
 </resources>
