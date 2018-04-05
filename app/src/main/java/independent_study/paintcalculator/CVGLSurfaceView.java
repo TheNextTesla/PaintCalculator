@@ -95,13 +95,14 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
         //NativeBridge.testDraw(texIn, texOut, width, height);
 
         //TODO switch with actual boolean
-        if(false) {
+        if(!InputActivity.isManualNotAutoSelected) 
+        {
             Rect wallBlob = NativeBridge.blobAnalyze(texIn, texOut, width, height, 0, 255, 0, 255, 0, 255);
             Log.d(LOG_TAG, "X " + wallBlob.x + " Y " + wallBlob.y);
             rectView.setRectToDraw(new RectF(wallBlob.x / width, wallBlob.y / height, (wallBlob.x + wallBlob.width) / width, (wallBlob.y + wallBlob.height) / height));
             if (Math.abs(prevSize - calculateArea(wallBlob, 0, width, height)) > SIZE_DIFFERENCE_TRESHHOLD_FOR_DISPLAY)
             {
-               prevSize = calculateArea(wallBlob, 0, width, height);
+               prevSize = calculateArea(wallBlob, , width, height);
                displayArea(prevSize, true, 0,0, false);
             }
         }
