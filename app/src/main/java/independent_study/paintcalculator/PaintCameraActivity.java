@@ -20,15 +20,25 @@ import android.graphics.Rect;
 
 public class PaintCameraActivity extends Activity
 {
+
     private static final String LOG_TAG = "PaintCameraActivity";
+
     private static final int PERMISSIONS_KEY = 42;
+    //Stores the touch locations for one movement by the user on the screen index 0 stores the action down location and index 1 stores the action up location
     private MotionEvent[] touchLocations = new MotionEvent[2];
+    //Width of the screen in pixels
     private int screenPixelWidth;
+    //Height of the screen in pixels
     private int screenPixelHeight;
+
     private CVGLSurfaceView cvView;
+
     private RectangleView rectView;
+    //Temporary rectangle that stores the current rectangle drawn on the screen by the user
     private RectF tempRect;
+    //stores the starting X position on the screen for a touch during an action down event
     private float startX;
+    //stores the starting Y position on the screen for a touch during an action down event
     private float startY;
 
     @Override
@@ -76,6 +86,8 @@ public class PaintCameraActivity extends Activity
                             }
                         case MotionEvent.ACTION_UP:
                             touchLocations[1] = event;
+                            //TODO distance
+                            cvView.displayArea(cvView.calculateArea(tempRect, 0), true, cvView.calculateWidth(Math.abs(tempRect.right - tempRect.left), 0), cvView.calculateHeight(Math.abs(tempRect.top - tempRect.bottom), 0), true);
                             Log.d(LOG_TAG, "Up Touch X " + x + " Y " + y);
                             break;
                     }

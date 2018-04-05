@@ -19,7 +19,7 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
     private static final double SIZE_DIFFERENCE_TRESHHOLD_FOR_DISPLAY = 5;
 
     //focal_length stores the focal length of the camera being used, sizeW stores the sensor width, sizeH stores the sensor height
-    private double focal_length, sizeW, sizeH;
+    private double focal_length, sizeW, sizeH, verticleViewAngel;
 
     private double prevSize = Double.MIN_VALUE;
 
@@ -59,6 +59,7 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
         {
             sizeH = physicalSize.getHeight();
             sizeW = physicalSize.getWidth();
+            verticleViewAngel = Math.atan(sizeH/focal_length/2) * 2;
         }
         else
         {
@@ -126,19 +127,51 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
         return  w * h;
     }
 
+    /**
+     * Calculates Width of an object given the percentage of the width of the sensor that it occupies and the distance from the object
+     * Object Size on Sensor / Focal Length = Object Size / Distance
+     * Object Size on Sensor * Distance / Focal Length = Object Size
+     * @param percentSensor
+     * percent of image taken up by object 1.00 = 100% 0.0 = 0%
+     * @param distance
+     * distance of object from camera
+     **/
     public double calculateWidth(double percentSensor, double distance)
     {
         return (((percentSensor) * sizeW) / focal_length) * distance;
     }
 
+    /**
+     * Calculates Height of an object given the percentage of the height of the sensor that it occupies and the distance from the object
+     * Object Size on Sensor / Focal Length = Object Size / Distance
+     * Object Size on Sensor * Distance / Focal Length = Object Size
+     * @param percentSensor
+     * percent of image taken up by object 1.00 = 100% 0.0 = 0%
+     * @param distance
+     * distance of object from camera
+     **/
     public double calculateHeight(double percentSensor, double distance)
     {
         return (((percentSensor) * sizeH) / focal_length) * distance;
     }
 
-    //Displays a snackbar with the area shown if length is true the duration is Snackbar.LENGTH_LONG if it is false the duration is Snackbar.LENGTH_SHORT
-    public void displayArea(double area, boolean length, int width, int height, boolean displayWH)
+    /**
+     * Calculates the distance of the camera from the wall using by finding the angel of botton wall towards the camera
+     * @param height
+     * height of camera
+     * @param percentageHeight
+     * the y location of the ground in the image expressed as a percentage of the total size of the image
+     * @return
+     * the distance of the camera from the object
+     */
+    public double calculateDistance(double height, double percentageHeight)
     {
-        Snackbar.make(this, area + " ft^2" + (displayWH ? " Width: " + width + "ft " + " Height: " + height + "ft" : ""), (length ? Snackbar.LENGTH_LONG : Snackbar.LENGTH_SHORT));
+        return Math.tan((percentageHeight - 0.5) * verticleViewAngel) * height;
+    }
+
+    //Displays a snackbar with the area shown if length is true the duration is Snackbar.LENGTH_LONG if it is false the duration is Snackbar.LENGTH_SHORT
+    public void displayArea(double area, boolean length, double width, double height, boolean displayWH)
+    {
+        Snackbar.make(this, area + " ft^2" + (displayWH ? " Width: " + width + "ft " + " Height: " + height + "ft" : ""), (length ? Snackbar.LENGTH_LONG : Snackbar.LENGTH_SHORT)) .setAction("Does Nothing", null).show();
     }
 }
