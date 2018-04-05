@@ -53,9 +53,10 @@ public class PaintCameraActivity extends Activity
 
         requestPermissions();
         setContentView(R.layout.activity_paintcamera);
-        cvView = findViewById(R.id.CVGLSurfaceView);
         rectView = findViewById(R.id.RectangleView);
+        cvView = findViewById(R.id.CVGLSurfaceView);
         cvView.setCameraTextureListener(cvView);
+        cvView.setRectView(rectView);
         Log.d(LOG_TAG, "onCreate");
 
         DisplayMetrics displayMetrics = new DisplayMetrics();

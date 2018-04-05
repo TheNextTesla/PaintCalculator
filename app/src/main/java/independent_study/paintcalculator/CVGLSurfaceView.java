@@ -32,7 +32,6 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
     public CVGLSurfaceView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
-        rectView = findViewById(R.id.RectangleView);
         /*
         Can not bind Camera if CameraGLSurfaceView is in use, because it is already bound
         Finds focal length and the sensor width and height
@@ -63,7 +62,7 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
         {
             sizeH = physicalSize.getHeight();
             sizeW = physicalSize.getWidth();
-            verticleViewAngel = Math.atan(sizeH/focal_length/2) * 2;
+            verticleViewAngel = Math.atan((sizeH/focal_length)/2) * 2;
         }
         else
         {
@@ -95,6 +94,11 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
         super.surfaceDestroyed(holder);
     }
 
+    public void setRectView(RectangleView rectView)
+    {
+        this.rectView = rectView;
+    }
+
     /**Called every time a new texture from the camera is read **/
     @Override
     public boolean onCameraTexture(int texIn, int texOut, int width, int height)
@@ -106,8 +110,9 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
         if(!InputActivity.isManualNotAutoSelected)
         {
             Rect wallBlob = NativeBridge.blobAnalyze(texIn, texOut, width, height, 0, 255, 0, 255, 0, 255);
-            Log.d(LOG_TAG, "X " + wallBlob.x + " Y " + wallBlob.y);
-            rectView.setRectToDraw(new RectF(wallBlob.x / width, wallBlob.y / height, (wallBlob.x + wallBlob.width) / width, (wallBlob.y + wallBlob.height) / height));
+            Log.d(LOG_TAG, "X " + wallBlob.x + " Y " + wallBlob.y + " width" + wallBlob.width + "height" + wallBlob.height);
+            if(rectView != null)
+                rectView.setRectToDraw(new RectF(wallBlob.x / width, wallBlob.y / height, (wallBlob.x + wallBlob.width) / width, (wallBlob.y + wallBlob.height) / height));
             if (Math.abs(prevSize - calculateArea(wallBlob, 0, width, height)) > SIZE_DIFFERENCE_TRESHHOLD_FOR_DISPLAY)
             {
                prevSize = calculateArea(wallBlob,InputActivity.isHeightNotDistanceSelected ? this.calculateDistance(InputActivity.lengthInserted, (wallBlob.y + wallBlob.height) / height) : InputActivity.lengthInserted, width, height);
@@ -170,6 +175,7 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
      */
     public double calculateDistance(double height, double percentageHeight)
     {
+        Log.i(LOG_TAG, "Ver angel" + Math.toDegrees(verticleViewAngel) + " percentageHeight" + (percentageHeight - 0.5) + "height:" + height + "angel:" + ((percentageHeight - 0.5) * verticleViewAngel));
         return Math.tan((percentageHeight - 0.5) * verticleViewAngel) * height;
     }
 
