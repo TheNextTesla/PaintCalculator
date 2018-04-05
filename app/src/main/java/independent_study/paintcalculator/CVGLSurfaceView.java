@@ -130,6 +130,9 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
     /**Calculates the area of the object using the formula obj size on sensor / focal length = obj size / distance**/
     public double calculateArea(RectF obj, double distance)
     {
+        Log.i(LOG_TAG, "TOP: " + obj.top + " LEFT: " + obj.left + " BOTTOM: " + obj.bottom + "TOP: " + obj.top);
+        Log.i(LOG_TAG, "sizeH: " + sizeH + " sizeW" + sizeW + " focal length: " + focal_length);
+        Log.i(LOG_TAG, "distance: " + distance);
         double w = (((obj.width()) * sizeW) / focal_length) * distance;
         double h = (((obj.height()) * sizeH) / focal_length) * distance;
         return  w * h;
