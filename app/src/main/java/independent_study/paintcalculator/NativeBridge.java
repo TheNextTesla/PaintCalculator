@@ -2,8 +2,12 @@ package independent_study.paintcalculator;
 
 import org.opencv.core.Rect;
 
+/**
+ * Class that Links Up With C++ Code so We can run methods there if needed
+ */
 public class NativeBridge
 {
+    //Sets Up the C++ Libraries with Java
     static
     {
         System.loadLibrary("opencv_java3");
@@ -12,6 +16,7 @@ public class NativeBridge
 
     private NativeBridge() { }
 
+    //The Methods that we have in C++ (Some Used, Some Not)
     public static native void testDraw(int texIn, int texOut, int width, int height);
 
     public static native Rect blobAnalyze(int texIn, int texOut, int width, int height, int hMin, int hMax, int sMin, int sMax, int vMin, int vMax);
