@@ -217,7 +217,8 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
         if(lastToast != null)
             lastToast.cancel();
 
-        lastToast = Toast.makeText(this.getContext(), "Paint Required " +  (area / 144.0) / 375. + " gallons", Toast.LENGTH_LONG);
+        String toastString = String.format(Locale.US, "Paint Required %2.3f Gallons", (area / 144.0) / 375.);
+        lastToast = Toast.makeText(this.getContext(), toastString, Toast.LENGTH_LONG);
         lastToast.show();
     }
 }
