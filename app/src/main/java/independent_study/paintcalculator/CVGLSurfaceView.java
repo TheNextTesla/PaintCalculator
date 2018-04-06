@@ -8,8 +8,11 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.util.SizeF;
 import android.view.SurfaceHolder;
+import android.widget.Toast;
 
 import org.opencv.core.Rect;
+
+import java.util.Locale;
 
 public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements CameraGLSurfaceViewImproved.CameraTextureListener
 {
@@ -27,6 +30,8 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
 
     //Stores the RectangleView from R.id.RectangleView
     private RectangleView rectView;
+
+    private Toast lastToast;
 
     /**
      * Initializes rectView to a R.id.RectangleView and calls super constructor with arguments context and attrs
@@ -199,9 +204,20 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
     /**
      * Displays a snackbar with the area shown if length is true the duration is Snackbar.
      * LENGTH_LONG if it is false the duration is Snackbar.LENGTH_SHORT
-     */
+           */
     public void displayArea(double area, boolean length, double width, double height, boolean displayWH)
     {
-        Snackbar.make(this, area + " in^2" + (displayWH ? " Width: " + width + "in " + " Height: " + height + "in" : ""), (length ? Snackbar.LENGTH_LONG : Snackbar.LENGTH_SHORT)) .setAction("Does Nothing", null).show();
+        String snackBarString;
+        if(displayWH)
+            snackBarString = String.format(Locale.US, "Area %4.2f in^2 Width %3.2f in Height %3.2f in", area, width, height);
+        else
+            snackBarString = String.format(Locale.US, "Area %4.2f in^2", area);
+        Snackbar.make(this, snackBarString, (length ? Snackbar.LENGTH_LONG : Snackbar.LENGTH_SHORT)) .setAction("Does Nothing", null).show();
+
+        if(lastToast != null)
+            lastToast.cancel();
+
+        lastToast = Toast.makeText(this.getContext(), "Paint Required " +  (area / 144.0) / 375. + " gallons", Toast.LENGTH_LONG);
+        lastToast.show();
     }
 }

@@ -75,13 +75,15 @@ public class PaintCameraActivity extends Activity
         View.OnTouchListener handleTouch = new View.OnTouchListener()
         {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
+            public boolean onTouch(View v, MotionEvent event)
+            {
                 if (InputActivity.isManualNotAutoSelected)
                 {
                     float x = (float) (int) event.getX();
                     float y = (float) (int) event.getY();
 
-                    switch (event.getAction()) {
+                    switch (event.getAction())
+                    {
                         //sets the tempRect to a new RectF with a left and right at current x/screenPixelWidth and a top and bottom at y/screenPixelHeight
                         //sets startX and startY to x/screenPixelWidth and y/screenPixelWidth respectively for future use
                         case MotionEvent.ACTION_DOWN:
@@ -93,7 +95,8 @@ public class PaintCameraActivity extends Activity
                             break;
                         //sets tempRect to a new RectF that has the same left and top but the right and bottom are set to x/screenPixelWidth and y/screenPixelWidth to update the rectangle to the current touch location on screen
                         case MotionEvent.ACTION_MOVE:
-                            if (tempRect != null) {
+                            if (tempRect != null)
+                            {
                                 tempRect = new RectF(startX, startY, x / screenPixelWidth, y / screenPixelWidth);
                             }
 
