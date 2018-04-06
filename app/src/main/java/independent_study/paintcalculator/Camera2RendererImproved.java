@@ -22,6 +22,9 @@ import java.util.Arrays;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Slightly Enhance OpenCV Class - Needed One More Method to Have Access to Camera Properties Like Focal Length
+ */
 public class Camera2RendererImproved extends CameraGLRendererBaseImproved
 {
     protected final String LOGTAG = "Camera2Renderer";

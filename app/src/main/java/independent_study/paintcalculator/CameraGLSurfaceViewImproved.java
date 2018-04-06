@@ -8,6 +8,9 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
+/**
+ * Slightly Enhance OpenCV Class - Needed One More Method to Have Access to Camera Properties Like Focal Length
+ */
 public class CameraGLSurfaceViewImproved extends GLSurfaceView
 {
     //String for use for logs
@@ -42,7 +45,8 @@ public class CameraGLSurfaceViewImproved extends GLSurfaceView
     private CameraTextureListener mTexListener;
     private CameraGLRendererBaseImproved mRenderer;
 
-    public CameraGLSurfaceViewImproved(Context context, AttributeSet attrs) {
+    public CameraGLSurfaceViewImproved(Context context, AttributeSet attrs)
+    {
         super(context, attrs);
 
         TypedArray styledAttrs = getContext().obtainStyledAttributes(attrs, org.opencv.R.styleable.CameraBridgeViewBase);
@@ -68,53 +72,63 @@ public class CameraGLSurfaceViewImproved extends GLSurfaceView
         return mTexListener;
     }
 
-    public CameraCharacteristics getCameraCharacteristics() {
+    public CameraCharacteristics getCameraCharacteristics()
+    {
         return mRenderer.getCharacteristics();
     }
 
-    public void setCameraIndex(int cameraIndex) {
+    public void setCameraIndex(int cameraIndex)
+    {
         mRenderer.setCameraIndex(cameraIndex);
     }
 
-    public void setMaxCameraPreviewSize(int maxWidth, int maxHeight) {
+    public void setMaxCameraPreviewSize(int maxWidth, int maxHeight)
+    {
         mRenderer.setMaxCameraPreviewSize(maxWidth, maxHeight);
     }
 
     @Override
-    public void surfaceCreated(SurfaceHolder holder) {
+    public void surfaceCreated(SurfaceHolder holder)
+    {
         super.surfaceCreated(holder);
     }
 
     @Override
-    public void surfaceDestroyed(SurfaceHolder holder) {
+    public void surfaceDestroyed(SurfaceHolder holder)
+    {
         mRenderer.mHaveSurface = false;
         super.surfaceDestroyed(holder);
     }
 
     @Override
-    public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
+    public void surfaceChanged(SurfaceHolder holder, int format, int w, int h)
+    {
         super.surfaceChanged(holder, format, w, h);
     }
 
     @Override
-    public void onResume() {
+    public void onResume()
+    {
         Log.i(LOGTAG, "onResume");
         super.onResume();
         mRenderer.onResume();
     }
 
     @Override
-    public void onPause() {
+    public void onPause()
+    {
         Log.i(LOGTAG, "onPause");
         mRenderer.onPause();
         super.onPause();
     }
 
-    public void enableView() {
+    public void enableView()
+    {
         mRenderer.enableView();
     }
 
-    public void disableView() {
+    public void disableView()
+    {
         mRenderer.disableView();
     }
 }

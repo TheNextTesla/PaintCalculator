@@ -18,8 +18,11 @@ import java.nio.FloatBuffer;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-public abstract class CameraGLRendererBaseImproved implements GLSurfaceView.Renderer, SurfaceTexture.OnFrameAvailableListener {
-
+/**
+ * Slightly Enhance OpenCV Class - Needed One More Method to Have Access to Camera Properties Like Focal Length
+ */
+public abstract class CameraGLRendererBaseImproved implements GLSurfaceView.Renderer, SurfaceTexture.OnFrameAvailableListener
+{
     protected final String LOGTAG = "CameraGLRendererBase";
 
     // shaders
