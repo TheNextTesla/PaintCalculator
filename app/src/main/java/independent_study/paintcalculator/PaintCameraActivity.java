@@ -16,11 +16,11 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import android.graphics.Rect;
-
+/**
+ *
+ */
 public class PaintCameraActivity extends Activity
 {
-
     private static final String LOG_TAG = "PaintCameraActivity";
 
     private static final int PERMISSIONS_KEY = 42;
@@ -41,11 +41,18 @@ public class PaintCameraActivity extends Activity
     //stores the starting Y position on the screen for a touch during an action down event
     private float startY;
 
+
+    /**
+     * Sets up the Activity's Instance Variables and UI Parameter
+     * @param savedInstanceState - Any Parameter Sent to the Activity
+     *                           - We don't actually use any of this
+     */
     @Override
-    /** **/
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
+        //Without a Title Bar, Full Screen
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -110,21 +117,27 @@ public class PaintCameraActivity extends Activity
         cvView.setOnTouchListener(handleTouch);
     }
 
-    /**@return touchLocations
-     * touchLocations is an array that stores the location of touch down and touch up of the last touch interaction
-     * index 0 is the MotionEvent for touch down and index 1 is the MotionEvent for touch up**/
+    /**
+     * TouchLocations is an array that stores the location of touch down and touch up of the last touch interaction
+     * Index 0 is the MotionEvent for touch down and index 1 is the MotionEvent for touch up
+     * @return touchLocations
+     */
     public MotionEvent[] getTouchCordinates()
     {
         return(touchLocations);
     }
 
-    /**adjusts screen touch location to camera pixel location**/
+    /**
+     * Adjusts screen touch location to camera pixel location
+     */
     public int adjustScreenTouchX(int screenX)
     {
         return((screenX/screenPixelWidth)* cvView.getWidth());
     }
 
-    /**adjusts screen touch location to camera pixel location**/
+    /**
+     * Adjusts screen touch location to camera pixel location
+     */
      public int adjustScreenTouchY(int screenY)
     {
         return((screenY/screenPixelHeight)* cvView.getHeight());
@@ -151,9 +164,10 @@ public class PaintCameraActivity extends Activity
         }
     }
 
-    /**Requests permissions to access the camera if the app does not currently have permissions to access the camera
-        If the app already has permission to access to camera the no action is preformed
-    **/
+    /**
+     * Requests permissions to access the camera if the app does not currently have permissions to access the camera
+     * If the app already has permission to access to camera the no action is preformed
+    */
     private void requestPermissions()
     {
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)

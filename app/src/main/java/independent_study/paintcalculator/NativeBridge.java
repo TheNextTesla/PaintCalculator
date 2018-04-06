@@ -17,6 +17,7 @@ public class NativeBridge
     private NativeBridge() { }
 
     //The Methods that we have in C++ (Some Used, Some Not)
+
     public static native void testDraw(int texIn, int texOut, int width, int height);
 
     public static native Rect blobAnalyze(int texIn, int texOut, int width, int height, int hMin, int hMax, int sMin, int sMax, int vMin, int vMax);

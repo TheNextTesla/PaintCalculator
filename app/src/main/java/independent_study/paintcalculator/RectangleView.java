@@ -19,7 +19,9 @@ public class RectangleView extends View
     //RectF that will be drawn on the screen
     private RectF rect;
 
-    /**View that draws a rectangle on the screen**/
+    /**
+     * View that draws a rectangle on the screen
+     */
     public RectangleView(Context context, AttributeSet attributeSet)
     {
         super(context, attributeSet);
@@ -30,17 +32,19 @@ public class RectangleView extends View
     }
 
     /**
+     * Sets this.rect equal to rect
      * @param rect
-     * sets this.rect equal to rect
      */
     public void setRectToDraw(RectF rect)
     {
         this.rect = rect;
     }
 
+
+    /**
+    *  Draws the rectF if it is not null by multiplying the rectF values by the canvas width and height
+    */
     @Override
-    /** Draws the rectF if it is not null by multiplying the rectF values by the canvas width and height
-    **/
     protected void onDraw(Canvas canvas)
     {
         super.onDraw(canvas);

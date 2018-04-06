@@ -1,6 +1,7 @@
 package independent_study.paintcalculator;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
@@ -34,6 +35,7 @@ public class InputActivity extends AppCompatActivity
         setContentView(R.layout.activity_input);
         lengthInserted = Double.NaN;
 
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

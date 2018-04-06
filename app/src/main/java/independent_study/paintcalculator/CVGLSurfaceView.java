@@ -28,7 +28,9 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
     //Stores the RectangleView from R.id.RectangleView
     private RectangleView rectView;
 
-    /**initializes rectView to a R.id.RectangleView and calls super constructor with arguments context and attrs**/
+    /**
+     * Initializes rectView to a R.id.RectangleView and calls super constructor with arguments context and attrs
+     */
     public CVGLSurfaceView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
@@ -43,9 +45,11 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
         */
     }
 
-
+    /**
+     * Initializes focal_length, sizeW, and sizeH if CameraCharacteristics provide non null returns.
+     * In the case of a null return focal_length, sizeW, or sizeH will be set to Double.NaN
+     */
     @Override
-    /**Initializes focal_length, sizeW, and sizeH if CameraCharacteristics provide non null returns. In the case of a null return focal_length, sizeW, or sizeH will be set to Double.NaN**/
     public void onCameraViewStarted(int width, int height)
     {
         Log.d(LOG_TAG, String.format("onCameraViewStarted w%d, h%d", width, height));
@@ -71,14 +75,18 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
         }
     }
 
-    /**prints onCameraViewStopped in debug log**/
+    /**
+     * Prints onCameraViewStopped in debug log
+     */
     @Override
     public void onCameraViewStopped()
     {
         Log.d(LOG_TAG, "onCameraViewStopped");
     }
 
-    /**prints surfaceCreated in debug log**/
+    /**
+     * Prints surfaceCreated in debug log
+     */
     @Override
     public void surfaceCreated(SurfaceHolder holder)
     {
@@ -86,7 +94,9 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
         Log.d(LOG_TAG, "surfaceCreated");
     }
 
-    /**prints surfaceDestroyed in debug log**/
+    /**
+     * Prints surfaceDestroyed in debug log
+     */
     @Override
     public void surfaceDestroyed(SurfaceHolder holder)
     {
@@ -99,7 +109,9 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
         this.rectView = rectView;
     }
 
-    /**Called every time a new texture from the camera is read **/
+    /**
+     * Called every time a new texture from the camera is read
+     */
     @Override
     public boolean onCameraTexture(int texIn, int texOut, int width, int height)
     {
@@ -124,7 +136,10 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
         return false;
     }
 
-    /**Calculates the area of the object using the formula obj size on sensor / focal length = obj size / distance Uses width and height to compute the size of the area on the sensor**/
+    /**
+     * Calculates the area of the object using the formula obj size on sensor / focal length = obj size / distance
+     * Uses width and height to compute the size of the area on the sensor
+     */
     public double calculateArea(Rect obj, double distance, int width, int height)
     {
         double w = (((obj.width / width) * sizeW) / focal_length) * distance;
@@ -132,7 +147,9 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
         return  Math.abs(w * h);
     }
 
-    /**Calculates the area of the object using the formula obj size on sensor / focal length = obj size / distance**/
+    /**
+     * Calculates the area of the object using the formula obj size on sensor / focal length = obj size / distance*
+     */
     public double calculateArea(RectF obj, double distance)
     {
         Log.i(LOG_TAG, "TOP: " + obj.top + " LEFT: " + obj.left + " BOTTOM: " + obj.bottom + "TOP: " + obj.top);
@@ -179,7 +196,10 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
         return Math.tan((percentageHeight - 0.5) * verticleViewAngel) * height;
     }
 
-    /**Displays a snackbar with the area shown if length is true the duration is Snackbar.LENGTH_LONG if it is false the duration is Snackbar.LENGTH_SHORT**/
+    /**
+     * Displays a snackbar with the area shown if length is true the duration is Snackbar.
+     * LENGTH_LONG if it is false the duration is Snackbar.LENGTH_SHORT
+     */
     public void displayArea(double area, boolean length, double width, double height, boolean displayWH)
     {
         Snackbar.make(this, area + " in^2" + (displayWH ? " Width: " + width + "in " + " Height: " + height + "in" : ""), (length ? Snackbar.LENGTH_LONG : Snackbar.LENGTH_SHORT)) .setAction("Does Nothing", null).show();
