@@ -157,7 +157,7 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
      */
     public double calculateArea(RectF obj, double distance)
     {
-        Log.i(LOG_TAG, "TOP: " + obj.top + " LEFT: " + obj.left + " BOTTOM: " + obj.bottom + "TOP: " + obj.top);
+        Log.i(LOG_TAG, "TOP: " + obj.top + " LEFT: " + obj.left + " BOTTOM: " + obj.bottom + "RIGHT: " + obj.right);
         Log.i(LOG_TAG, "sizeH: " + sizeH + " sizeW" + sizeW + " focal length: " + focal_length);
         Log.i(LOG_TAG, "distance: " + distance);
         double w = (((obj.width()) * sizeW) / focal_length) * distance;
@@ -197,8 +197,8 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
      */
     public double calculateDistance(double height, double percentageHeight)
     {
-        Log.i(LOG_TAG, "Ver angel" + Math.toDegrees(verticleViewAngel) + " percentageHeight" + (percentageHeight - 0.5) + "height:" + height + "angel:" + ((percentageHeight - 0.5) * verticleViewAngel));
-        return Math.tan((percentageHeight - 0.5) * verticleViewAngel) * height;
+        Log.i(LOG_TAG, "" + ((0.5 * height) / (percentageHeight - 0.5)) + " ANG:" + Math.tan(verticleViewAngel/2));
+        return ((0.5 * height) / (percentageHeight - 0.5))/Math.tan(verticleViewAngel/2);
     }
 
     /**
