@@ -55,7 +55,7 @@ public class RectangleView extends View
             return;
         }
 
-        Log.d("Rectangle", "Going the distance");
+        Log.d("Rectangle", "Going the distance" + rect.left*canvas.getWidth());
 
         canvas.drawRect(rect.left*canvas.getWidth(), rect.top*canvas.getHeight(), rect.right*canvas.getWidth(), rect.bottom*canvas.getHeight(), paint);
     }

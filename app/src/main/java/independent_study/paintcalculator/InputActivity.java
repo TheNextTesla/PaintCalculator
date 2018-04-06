@@ -3,7 +3,6 @@ package independent_study.paintcalculator;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -17,7 +16,7 @@ import android.widget.RadioGroup;
 public class InputActivity extends AppCompatActivity
 {
     public static boolean isHeightNotDistanceSelected;
-    public static boolean isManualNotAutoSelected;
+    public static boolean isManualNotFixedSelected;
     public static double lengthInserted;
 
     protected EditText editTextInches;
@@ -58,7 +57,7 @@ public class InputActivity extends AppCompatActivity
             {
                 if(allFormsFilled())
                 {
-                    Log.d("InputActivity", "Length " + lengthInserted + " isManual " + isManualNotAutoSelected + " isDistance " + !isHeightNotDistanceSelected);
+                    Log.d("InputActivity", "Length " + lengthInserted + " isManual " + isManualNotFixedSelected + " isDistance " + !isHeightNotDistanceSelected);
                     switchToCamera();
                 }
                 else
@@ -123,7 +122,7 @@ public class InputActivity extends AppCompatActivity
 
         //Sets Static Variables (if it makes it that far)
         isHeightNotDistanceSelected = isHeightNotDistance;
-        isManualNotAutoSelected = isManualNotAuto;
+        isManualNotFixedSelected = isManualNotAuto;
         lengthInserted = length;
 
         return true;

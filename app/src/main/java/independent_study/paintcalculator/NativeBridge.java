@@ -16,7 +16,8 @@ public class NativeBridge
 
     private NativeBridge() { }
 
-    //The Methods that we have in C++ (Some Used, Some Not)
+    //The Methods that we have in C++ (Not Used at the Moment)
+    //We had originally hoped to make it all automatic
 
     public static native void testDraw(int texIn, int texOut, int width, int height);
 

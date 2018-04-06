@@ -3,6 +3,8 @@ package independent_study.paintcalculator;
 import android.content.Context;
 import android.graphics.RectF;
 import android.hardware.camera2.CameraCharacteristics;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.design.widget.Snackbar;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -32,6 +34,8 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
     private RectangleView rectView;
 
     private Toast lastToast;
+
+    private int callCount;
 
     /**
      * Initializes rectView to a R.id.RectangleView and calls super constructor with arguments context and attrs
@@ -120,10 +124,15 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
     @Override
     public boolean onCameraTexture(int texIn, int texOut, int width, int height)
     {
+        //---Commented Out Code from our tests with color analysis wall picking
+        //---Very difficult given the slight shading difference between walls and the fact that
+        //---- people have things on their wall usually
+
         //Call Native Processing Code Here - Can Pass Parameters to OpenCV
         //Log.d(LOG_TAG, "Width " + width + " Height " + height);
         //NativeBridge.testDraw(texIn, texOut, width, height);
 
+        /*
         if(!InputActivity.isManualNotAutoSelected)
         {
             Rect wallBlob = NativeBridge.blobAnalyze(texIn, texOut, width, height, 0, 255, 0, 255, 0, 255);
@@ -136,6 +145,29 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
                displayArea(prevSize, true, 0,0, false);
             }
         }
+        */
+
+        if(!InputActivity.isManualNotFixedSelected)
+        {
+            final RectF rectF = new RectF((float) 0.25, (float)0.75, (float) 0.75, (float) 0.25);
+            //final Rect scaledRect = new Rect(0.25 * width, 0.75 * height, 0.25 * width, )
+            //rectView.setRectToDraw(rectF);
+
+            if(callCount % 50 == 0)
+            {
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        //rectView.invalidate();
+                        displayArea(calculateArea(rectF, InputActivity.isHeightNotDistanceSelected ? calculateDistance(InputActivity.lengthInserted, rectF.bottom) : InputActivity.lengthInserted), true,
+                                calculateWidth(Math.abs(rectF.right - rectF.left), InputActivity.isHeightNotDistanceSelected ? calculateDistance(InputActivity.lengthInserted, rectF.bottom) : InputActivity.lengthInserted),
+                                calculateHeight(Math.abs(rectF.top - rectF.bottom), InputActivity.isHeightNotDistanceSelected ? calculateDistance(InputActivity.lengthInserted, rectF.bottom) : InputActivity.lengthInserted), true);
+                    }
+                });
+            }
+            callCount++;
+        }
+
         //rectView.setRectToDraw(new RectF(wallBlob.x/width, wallBlob.y/width, (wallBlob.x + wallBlob.width )/ width, (wallBlob.height + wallBlob.y) / height));
         //return true;
         return false;

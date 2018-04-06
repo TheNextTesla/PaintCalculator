@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -77,7 +78,7 @@ public class PaintCameraActivity extends Activity
             @Override
             public boolean onTouch(View v, MotionEvent event)
             {
-                if (InputActivity.isManualNotAutoSelected)
+                if (InputActivity.isManualNotFixedSelected)
                 {
                     float x = (float) (int) event.getX();
                     float y = (float) (int) event.getY();
@@ -114,10 +115,25 @@ public class PaintCameraActivity extends Activity
                     rectView.invalidate();
                     return true;
                 }
+                else
+                {
+                    RectF f = new RectF((float) 0.25, (float)0.75, (float) 0.75, (float) 0.25);
+                    f.sort();
+                    rectView.setRectToDraw(f);
+                    rectView.invalidate();
+                }
                 return false;
             }
         };
         cvView.setOnTouchListener(handleTouch);
+
+        if(!InputActivity.isManualNotFixedSelected)
+        {
+            RectF f = new RectF((float) 0.25, (float)0.75, (float) 0.75, (float) 0.25);
+            f.sort();
+            rectView.setRectToDraw(f);
+            rectView.invalidate();
+        }
     }
 
     /**
