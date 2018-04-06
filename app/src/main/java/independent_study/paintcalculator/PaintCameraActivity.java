@@ -59,6 +59,7 @@ public class PaintCameraActivity extends Activity
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
+        //Set Up Camera Permission and UI
         requestPermissions();
         setContentView(R.layout.activity_paintcamera);
         rectView = findViewById(R.id.RectangleView);
@@ -117,6 +118,7 @@ public class PaintCameraActivity extends Activity
                 }
                 else
                 {
+                    //Loads the default box if fixed
                     RectF f = new RectF((float) 0.25, (float)0.75, (float) 0.75, (float) 0.25);
                     f.sort();
                     rectView.setRectToDraw(f);
@@ -127,6 +129,7 @@ public class PaintCameraActivity extends Activity
         };
         cvView.setOnTouchListener(handleTouch);
 
+        //Loads the default box if fixed
         if(!InputActivity.isManualNotFixedSelected)
         {
             RectF f = new RectF((float) 0.25, (float)0.75, (float) 0.75, (float) 0.25);
@@ -162,6 +165,12 @@ public class PaintCameraActivity extends Activity
         return((screenY/screenPixelHeight)* cvView.getHeight());
     }
 
+    /**
+     * How to react when we are first given the camera permission
+     * @param requestCode - code used when requesting
+     * @param permissions - the permission in question
+     * @param grantResults - the permission status
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults)
     {

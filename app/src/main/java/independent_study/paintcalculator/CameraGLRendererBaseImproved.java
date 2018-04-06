@@ -20,6 +20,7 @@ import javax.microedition.khronos.opengles.GL10;
 
 /**
  * Slightly Enhance OpenCV Class - Needed One More Method to Have Access to Camera Properties Like Focal Length
+ * Part of the library, we just made a small change to these three
  */
 public abstract class CameraGLRendererBaseImproved implements GLSurfaceView.Renderer, SurfaceTexture.OnFrameAvailableListener
 {

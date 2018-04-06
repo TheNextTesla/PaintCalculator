@@ -24,6 +24,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Slightly Enhance OpenCV Class - Needed One More Method to Have Access to Camera Properties Like Focal Length
+ * Part of the library, we just made a small change to these three
  */
 public class Camera2RendererImproved extends CameraGLRendererBaseImproved
 {

@@ -27,6 +27,12 @@ public class InputActivity extends AppCompatActivity
     protected RadioButton radioButtonAuto;
     protected RadioGroup radioGroupSelection;
 
+    /**
+     * Sets up the InputActivity
+     *  Grabs UI elements, sets up listeners, and displays them
+     * @param savedInstanceState - data passed over
+     *                           - only super uses it
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
