@@ -17,14 +17,13 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-/**
- *
- */
+import static android.hardware.Sensor.TYPE_GYROSCOPE;
+
 public class PaintCameraActivity extends Activity
 {
     private static final String LOG_TAG = "PaintCameraActivity";
-
     private static final int PERMISSIONS_KEY = 42;
+
     //Stores the touch locations for one movement by the user on the screen index 0 stores the action down location and index 1 stores the action up location
     private MotionEvent[] touchLocations = new MotionEvent[2];
     //Width of the screen in pixels
@@ -41,7 +40,6 @@ public class PaintCameraActivity extends Activity
     private float startX;
     //stores the starting Y position on the screen for a touch during an action down event
     private float startY;
-
 
     /**
      * Sets up the Activity's Instance Variables and UI Parameter

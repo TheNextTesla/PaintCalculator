@@ -2,6 +2,8 @@ package independent_study.paintcalculator;
 
 import android.content.Context;
 import android.graphics.RectF;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.hardware.camera2.CameraCharacteristics;
 import android.os.Handler;
 import android.os.Looper;
@@ -15,6 +17,8 @@ import android.widget.Toast;
 import org.opencv.core.Rect;
 
 import java.util.Locale;
+
+import static android.content.Context.SENSOR_SERVICE;
 
 public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements CameraGLSurfaceViewImproved.CameraTextureListener
 {
@@ -36,6 +40,11 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
     private Toast lastToast;
 
     private int callCount;
+
+    private SensorManager sensorManager;
+    private Sensor accelerometer;
+    private Sensor magnetometer;
+    private SimpleSensorListener sensorListener;
 
     /**
      * Initializes rectView to a R.id.RectangleView and calls super constructor with arguments context and attrs
@@ -81,6 +90,21 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
         {
             sizeH = Double.NaN;
             sizeW = Double.NaN;
+        }
+
+        if(sensorManager == null)
+        {
+            try
+            {
+                sensorManager = (SensorManager) getContext().getApplicationContext().getSystemService(SENSOR_SERVICE);
+                accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER, true);
+                magnetometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD, true);
+                sensorListener = new SimpleSensorListener(accelerometer, magnetometer);
+            }
+            catch(NullPointerException npe)
+            {
+                npe.printStackTrace();
+            }
         }
     }
 
