@@ -13,7 +13,7 @@ buildscript {
 }
 
 dependencies {
-    compile "com.android.support:support-core-utils:27.1.0"
+    implementation "com.android.support:support-core-utils:27.1.0"
     implementation "com.android.support:support-v4:27.1.0"
     implementation "com.android.support:support-v13:27.1.0"
     implementation project(':openCVLibrary310')
