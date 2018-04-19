@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import org.opencv.core.Rect;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Locale;
 
 import static android.content.Context.SENSOR_SERVICE;
@@ -45,6 +47,9 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
     private Sensor accelerometer;
     private Sensor magnetometer;
     private SimpleSensorListener sensorListener;
+
+    int cameraWidth;
+    int cameraHeight;
 
     /**
      * Initializes rectView to a R.id.RectangleView and calls super constructor with arguments context and attrs
@@ -100,12 +105,35 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
                 accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER, true);
                 magnetometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD, true);
                 sensorListener = new SimpleSensorListener(accelerometer, magnetometer);
+                sensorManager.registerListener(sensorListener, accelerometer, SensorManager.SENSOR_DELAY_GAME);
+                sensorManager.registerListener(sensorListener, magnetometer, SensorManager.SENSOR_DELAY_GAME);
             }
             catch(NullPointerException npe)
             {
                 npe.printStackTrace();
             }
         }
+    }
+
+    public float[] getCameraPitchAndYaw()
+    {
+        float[] rotationMatrix = new float[9];
+        ArrayList<float[]> sensorValues = sensorListener.getSensorValues();
+        float[] accelerometerValues = sensorValues.get(0);
+        float[] magnetometerValues = sensorValues.get(1);
+
+        if(accelerometerValues == null || magnetometerValues == null)
+            return null;
+
+        SensorManager.getRotationMatrix(rotationMatrix, null, accelerometerValues, magnetometerValues);
+        float[] gyroValues = new float[3];
+        gyroValues = SensorManager.getOrientation(rotationMatrix, gyroValues);
+
+        float currentPhoneYawDegrees = (float)(-Math.toDegrees(gyroValues[1]));
+        float currentPhonePitchDegrees = (float)(180 - (Math.toDegrees(gyroValues[2]) + 90));
+
+        float[] returnValues = {currentPhonePitchDegrees, currentPhoneYawDegrees};
+        return returnValues;
     }
 
     /**
@@ -148,6 +176,8 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
     @Override
     public boolean onCameraTexture(int texIn, int texOut, int width, int height)
     {
+        cameraHeight = height;
+        cameraWidth = width;
         //---Commented Out Code from our tests with color analysis wall picking
         //---Very difficult given the slight shading difference between walls and the fact that
         //---- people have things on their wall usually
@@ -183,9 +213,11 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
                     @Override
                     public void run() {
                         //rectView.invalidate();
-                        displayArea(calculateArea(rectF, InputActivity.isHeightNotDistanceSelected ? calculateDistance(InputActivity.lengthInserted, rectF.bottom) : InputActivity.lengthInserted), true,
-                                calculateWidth(Math.abs(rectF.right - rectF.left), InputActivity.isHeightNotDistanceSelected ? calculateDistance(InputActivity.lengthInserted, rectF.bottom) : InputActivity.lengthInserted),
-                                calculateHeight(Math.abs(rectF.top - rectF.bottom), InputActivity.isHeightNotDistanceSelected ? calculateDistance(InputActivity.lengthInserted, rectF.bottom) : InputActivity.lengthInserted), true);
+                        rectF.sort();
+                        double bottomOfRect = rectF.left < rectF.right ? rectF.left : rectF.right;
+                        displayArea(calculateArea(rectF, InputActivity.isHeightNotDistanceSelected ? calculateDistance(InputActivity.lengthInserted, bottomOfRect, rectF.centerX(), getCameraPitchAndYaw()) : InputActivity.lengthInserted), true,
+                                calculateWidth(Math.abs(rectF.right - rectF.left), InputActivity.isHeightNotDistanceSelected ? calculateDistance(InputActivity.lengthInserted, bottomOfRect, rectF.centerX(), getCameraPitchAndYaw()) : InputActivity.lengthInserted),
+                                calculateHeight(Math.abs(rectF.top - rectF.bottom), InputActivity.isHeightNotDistanceSelected ? calculateDistance(InputActivity.lengthInserted, bottomOfRect, rectF.centerX(), getCameraPitchAndYaw()) : InputActivity.lengthInserted), true);
                     }
                 });
             }
@@ -255,6 +287,45 @@ public class CVGLSurfaceView extends CameraGLSurfaceViewImproved implements Came
     {
         Log.i(LOG_TAG, "" + ((0.5 * height) / (percentageHeight - 0.5)) + " ANG:" + Math.tan(verticleViewAngel/2));
         return ((0.5 * height) / (percentageHeight - 0.5))/Math.tan(verticleViewAngel/2);
+    }
+
+    public double calculateDistance(double height, double bottomPixelPercentage, double centerPixelPercentage, float[] pitchAndYaw)
+    {
+        if(pitchAndYaw == null)
+            return Double.NaN;
+        //pitchAndYaw[0] = 0;
+        //pitchAndYaw[1] = 0;
+        double focalPixel = focal_length / sizeW * cameraWidth;
+        bottomPixelPercentage = 1 - bottomPixelPercentage;
+        Log.d(LOG_TAG, "cd focal" +focalPixel + " Height " + height + " BPP " + bottomPixelPercentage + " CPP " + centerPixelPercentage + " Pitch " + pitchAndYaw[0] + " Yaw " + pitchAndYaw[1]);
+        //Runs Sin and Cos on the Pitch and Yaw
+        double cameraYawSin = Math.sin(Math.toRadians(pitchAndYaw[1]));
+        double cameraYawCos = Math.cos(Math.toRadians(pitchAndYaw[1]));
+        double cameraPitchSin = Math.sin(Math.toRadians(pitchAndYaw[0]));
+        double cameraPitchCos = Math.cos(Math.toRadians(pitchAndYaw[0]));
+
+        double centerXA = cameraWidth - (centerPixelPercentage * cameraWidth);
+        double centerYA = cameraHeight - (bottomPixelPercentage * cameraHeight);
+
+        //Convert to Homogeneous Vector
+        double x = 1.0;
+        double y = ((centerXA - cameraWidth / 2) / focalPixel);
+        double z = ((centerYA - cameraHeight / 2) / focalPixel);
+
+        //Matrix Rotation for Yaw
+        double xYaw = (cameraYawCos + y * cameraYawSin);
+        double yYaw = (y * cameraYawCos - cameraYawSin);
+        double zYaw = z;
+
+        //Matrix Rotation for Pitch
+        double xR = zYaw * cameraPitchSin + xYaw * cameraPitchCos;
+        double yR = yYaw;
+        double zR = (zYaw * cameraPitchCos - xYaw * cameraPitchSin);
+
+        double scaling = height / zR;
+        double distance = Math.abs(Math.hypot(xR, yR) * scaling);
+        Log.d(LOG_TAG, "cd Distance " + distance + " angle " + Math.toDegrees(Math.atan2(yR, xR)));
+        return Math.abs(distance);
     }
 
     /**

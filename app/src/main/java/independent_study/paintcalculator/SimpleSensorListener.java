@@ -18,6 +18,10 @@ public class SimpleSensorListener implements SensorEventListener
         localSensors = sensors;
         accuracyValues = new int[sensors.length];
         sensorValues = new ArrayList<>(sensors.length);
+        for(int i = 0; i < sensors.length; i++)
+        {
+            sensorValues.add(null);
+        }
     }
 
     @Override
@@ -28,6 +32,7 @@ public class SimpleSensorListener implements SensorEventListener
             if(sensor == localSensors[i])
             {
                 accuracyValues[i] = accuracy;
+                //Log.d("SimpleSensorListener", "Accuracy Changed");
                 return;
             }
         }
@@ -42,6 +47,7 @@ public class SimpleSensorListener implements SensorEventListener
             if(event.sensor == localSensors[i])
             {
                 sensorValues.set(i, event.values);
+                //Log.d("SimpleSensorListener", "Value Changed");
                 return;
             }
         }
